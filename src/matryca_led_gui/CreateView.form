@@ -12,7 +12,7 @@
     <children>
       <grid id="67c5d" binding="radioButtonsPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
@@ -21,18 +21,42 @@
         <border type="none"/>
         <children/>
       </grid>
-      <component id="c3ebf" class="javax.swing.JButton" binding="button1" default-binding="true">
+      <component id="c3ebf" class="javax.swing.JButton" binding="saveViewButton">
         <constraints>
-          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag top="0" left="100" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Save"/>
         </properties>
       </component>
-      <component id="c2e9f" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+      <component id="22dee" class="javax.swing.JButton" binding="clearAllButton" default-binding="true">
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Clear all"/>
+        </properties>
+      </component>
+      <component id="5e07d" class="javax.swing.JComboBox" binding="pickColorComboBox">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <model>
+            <item value="Red"/>
+            <item value="Green"/>
+            <item value="Blue"/>
+            <item value="Yellow"/>
+            <item value="Pink"/>
+          </model>
+        </properties>
+      </component>
+      <component id="c2e9f" class="javax.swing.JComboBox" binding="pickToolComboBox">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
@@ -40,6 +64,15 @@
             <item value="Draw"/>
             <item value="Erase"/>
           </model>
+        </properties>
+      </component>
+      <component id="93ba2" class="javax.swing.JButton" binding="resetDBButton">
+        <constraints>
+          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Reset Database"/>
         </properties>
       </component>
     </children>

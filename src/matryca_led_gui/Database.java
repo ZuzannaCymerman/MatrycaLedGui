@@ -53,7 +53,7 @@ public class Database {
                 columns_string = columns_string+", "+columns[i];
                 values_string = values_string+", '"+values[i]+"'";
             }
-            statement.executeQuery("INSERT INTO networks("+columns_string+") VALUES("+values_string+");");
+            statement.executeQuery("INSERT INTO "+table+"("+columns_string+") VALUES("+values_string+");");
 
         } catch (SQLException e) {
             System.out.println(e.toString());
@@ -83,5 +83,50 @@ public class Database {
         }
     }
 
+    public void createTable(Connection conn,String tableName, String[] columns, String[] valueTypes) throws SQLException{
+
+        try (Statement statement = conn.createStatement()) {
+            statement.executeQuery("DROP TABLE "+tableName+";");
+
+        } catch (SQLException e) {
+            try (Statement statement = conn.createStatement()) {
+                statement.executeQuery("CREATE TABLE "+tableName+" ("+columns[0]+" "+valueTypes[0]+");");
+            } catch (SQLException ex) {System.out.println(e.toString());}
+
+            for(int i = 1;i< columns.length;i++){
+                try(Statement statement = conn.createStatement()){
+                    statement.executeQuery("ALTER TABLE "+tableName+" ADD "+columns[i]+" "+valueTypes[i]+";");
+                } catch (SQLException ex1) {System.out.println(e.toString());}
+            }
+        }
+
+
+    }
+
+    void clearViewsDB(){
+        HashMap<String, ArrayList<String>> viewtablenumbers = new HashMap<String, ArrayList<String>>();
+        setDB();
+
+        try {viewtablenumbers = fetch(conn, "viewtablenumbers",new String[]{"id"});
+        }catch(Exception ex){}
+
+        ArrayList<String> ids = viewtablenumbers.get("id");
+
+        ids.forEach((id) ->{
+            try (Statement statement = conn.createStatement()) {
+                statement.executeQuery("DROP TABLE "+"view"+id+";");
+            }catch(Exception ex){}
+        });
+
+        try (Statement statement = conn.createStatement()) {
+            statement.executeQuery("DROP TABLE "+"viewtablenumbers"+";");}catch(Exception ex){}
+
+        try{createTable(conn, "viewtablenumbers",
+                new String[]{"id", "name"},
+                new String[]{"SERIAL PRIMARY KEY","VARCHAR (20)"});}catch(Exception ex){};
+
+        try{insert(conn, "viewtablenumbers", new String[]{"name"}, new String[]{"name"});}catch(Exception ex){}
+        closeConnection();
+    }
 
 }
