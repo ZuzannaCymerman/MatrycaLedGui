@@ -21,7 +21,7 @@ public class CreateView{
     public ArrayList<String> pickedRadioButtonsColors;
     private boolean pressed;
     private Database db = new Database();
-    private int tableNumber = 0;
+
     CreateView(){
         initializeJRadioButtons();
         setClearAllButton();
