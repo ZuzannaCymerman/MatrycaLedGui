@@ -93,7 +93,8 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Clean database"/>
+          <preferredSize width="133" height="30"/>
+          <text value="Delete all"/>
         </properties>
       </component>
       <component id="f7501" class="javax.swing.JButton" binding="saveButton" default-binding="true">
