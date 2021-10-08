@@ -14,6 +14,7 @@ public class WiFiConfig {
     private JButton saveButton;
     private JButton cleanDatabaseButton;
     public JButton connectToWiFiButton;
+    private JButton deleteFromDatabaseButton;
 
     public String selectedSSID;
     public String selectedPassword;
@@ -24,6 +25,8 @@ public class WiFiConfig {
         saveWiFi();
         listAllNetworksAndPick();
         cleanDatabase();
+        setDeleteFromDatabaseButton();
+
     }
 
     public void saveWiFi() {
@@ -92,6 +95,16 @@ public class WiFiConfig {
                 try{db.cleanTable( "networks");}catch(Exception ex){}
                 listAllNetworksAndPick();
                 db.closeConnection();
+            }
+        });
+    }
+
+    public void setDeleteFromDatabaseButton(){
+        deleteFromDatabaseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{db.deleteNetwork(pickNetworkComboBox.getSelectedItem().toString());}catch(Exception ex){}
+                listAllNetworksAndPick();
             }
         });
     }
