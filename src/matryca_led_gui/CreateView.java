@@ -16,7 +16,6 @@ public class CreateView{
     private JComboBox pickToolComboBox;
     private JComboBox pickColorComboBox;
     private JButton clearAllButton;
-    private JButton resetDBButton;
     private JTextField viewNameTextField;
     private String viewName;
     public ArrayList<Integer> pickedRadioButtons;
@@ -27,14 +26,6 @@ public class CreateView{
     CreateView(){
         initializeJRadioButtons();
         setClearAllButton();
-        resetDBButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                db.setDB();
-                db.clearViews();
-                db.closeConnection();
-            }
-        });
     }
 
     private void initializeJRadioButtons(){
@@ -97,6 +88,7 @@ public class CreateView{
                 setViewTable();
                 pickedRadioButtons.clear();
                 pickedRadioButtonsColors.clear();
+
             }
         });
 

@@ -108,7 +108,7 @@ public class Database {
         }
     }
 
-    void clearViews(){
+   public void clearViews(){
         try (Statement statement = conn.createStatement()) {
             statement.executeQuery("DROP SCHEMA views CASCADE;");}catch(Exception ex){}
         try (Statement statement = conn.createStatement()) {
@@ -116,5 +116,11 @@ public class Database {
         try (Statement statement = conn.createStatement()) {
             statement.executeQuery("TRUNCATE TABLE  viewtablenumbers;");}catch(Exception ex){}
     }
+
+    public void deleteView(String viewName){
+        try (Statement statement = conn.createStatement()) {
+            statement.executeQuery("DROP TABLE views."+viewName+";");}catch(Exception ex){}
+    }
+
 
 }

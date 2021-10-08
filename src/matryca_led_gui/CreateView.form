@@ -54,15 +54,6 @@
           </model>
         </properties>
       </component>
-      <component id="93ba2" class="javax.swing.JButton" binding="resetDBButton">
-        <constraints>
-          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <text value="Reset Database"/>
-        </properties>
-      </component>
       <component id="c2e9f" class="javax.swing.JComboBox" binding="pickToolComboBox">
         <constraints>
           <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
