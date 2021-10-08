@@ -12,7 +12,7 @@ public class CreateView{
     private ColoredJRadioButton[] radioButtons = new ColoredJRadioButton[200];
     public JPanel createViewPanel ;
     private JPanel radioButtonsPanel;
-    private JButton saveViewButton;
+    public JButton saveViewButton;
     private JComboBox pickToolComboBox;
     private JComboBox pickColorComboBox;
     private JButton clearAllButton;
@@ -73,24 +73,6 @@ public class CreateView{
             radioButtonsPanel.setSize(200,200);
             radioButtonsPanel.add(radioButtons[i]);
         }
-
-        saveViewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for(int i = 0; i< radioButtons.length; i++){
-                    if(radioButtons[i].isSelected()){
-                            pickedRadioButtons.add(i);
-                            Color color = radioButtons[i].getColor();
-                            String hex = "#"+Integer.toHexString(color.getRGB()).substring(2);
-                            pickedRadioButtonsColors.add(hex);
-                    }
-                }
-                setViewTable();
-                pickedRadioButtons.clear();
-                pickedRadioButtonsColors.clear();
-
-            }
-        });
 
     }
 
@@ -169,6 +151,20 @@ public class CreateView{
             }
         }
     }
+    void saveView(){
+        for(int i = 0; i< radioButtons.length; i++){
+            if(radioButtons[i].isSelected()){
+                pickedRadioButtons.add(i);
+                Color color = radioButtons[i].getColor();
+                String hex = "#"+Integer.toHexString(color.getRGB()).substring(2);
+                pickedRadioButtonsColors.add(hex);
+            }
+        }
+        setViewTable();
+        pickedRadioButtons.clear();
+        pickedRadioButtonsColors.clear();
+    }
+
 
 
 }

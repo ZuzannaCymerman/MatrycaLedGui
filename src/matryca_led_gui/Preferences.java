@@ -18,8 +18,8 @@ public class Preferences {
 
 
     Preferences(){
-        preferencesPanel.add(serialPortConfigPanel, BorderLayout.NORTH);
-        preferencesPanel.add(wifiConfigPanel, BorderLayout.SOUTH);
+        preferencesPanel.add(serialPortConfigPanel);
+        preferencesPanel.add(wifiConfigPanel);
         connectToWiFi();
     }
 
