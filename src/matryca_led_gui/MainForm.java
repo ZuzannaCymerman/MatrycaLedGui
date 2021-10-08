@@ -9,11 +9,14 @@ import java.awt.event.ActionListener;
 public class MainForm extends JFrame implements ActionListener {
     private JPanel mainPanel;
 
-    private Preferences preferences = new Preferences();
+    private Preferences preferences = new Preferences()
+
     private LEDs leds = new LEDs();
     private Menu menu = new Menu();
+
     private CreateView createView = new CreateView();
     private PickView pickView = new PickView();
+    private PickView views = new Views();
 
     CardLayout cl = new CardLayout();
 
@@ -22,6 +25,7 @@ public class MainForm extends JFrame implements ActionListener {
     private JPanel menuPanel = menu.menuPanel;
     private JPanel createViewPanel = createView.createViewPanel;
     private JPanel pickViewPanel = pickView.pickViewPanel;
+    private JPanel viewsPanel = views.viewsPanel;
 
     public JMenuItem configMenuItem = menu.config;
     public JMenuItem ledsMenuItem = menu.LEDs;
