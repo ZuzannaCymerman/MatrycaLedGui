@@ -36,7 +36,7 @@ public class WiFiConfig {
                 ssidField.setText(null);
                 passwordField.setText(null);
                 try {
-                    db.insert(db.conn, "networks",
+                    db.insert( "networks",
                             new String[]{"ssid", "password"},
                             new String[]{network_ssid, network_password});
                 } catch (Exception ex) {
@@ -52,7 +52,7 @@ public class WiFiConfig {
     public void listAllNetworksAndPick() {
         db.setDB();
         pickNetworkComboBox.removeAllItems();
-        try{networks = db.fetch(db.conn, "networks", new String[]{"ssid", "password"});
+        try{networks = db.fetch( "networks", new String[]{"ssid", "password"});
         }catch(Exception ex){}
         for (String ssid: networks.get("ssid")){
             pickNetworkComboBox.addItem(ssid);
@@ -89,7 +89,7 @@ public class WiFiConfig {
             @Override
             public void actionPerformed(ActionEvent e) {
                 db.setDB();
-                try{db.cleanTable(db.conn, "networks");}catch(Exception ex){}
+                try{db.cleanTable( "networks");}catch(Exception ex){}
                 listAllNetworksAndPick();
                 db.closeConnection();
             }

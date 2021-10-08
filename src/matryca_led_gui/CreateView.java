@@ -16,21 +16,16 @@ public class CreateView{
     private JComboBox pickToolComboBox;
     private JComboBox pickColorComboBox;
     private JButton clearAllButton;
-    private JButton resetDBButton;
+    private JTextField viewNameTextField;
+    private String viewName;
     public ArrayList<Integer> pickedRadioButtons;
     public ArrayList<String> pickedRadioButtonsColors;
     private boolean pressed;
     private Database db = new Database();
-    private int tableNumber = 0;
+
     CreateView(){
         initializeJRadioButtons();
         setClearAllButton();
-        resetDBButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                db.clearViewsDB();
-            }
-        });
     }
 
     private void initializeJRadioButtons(){
@@ -48,12 +43,8 @@ public class CreateView{
                 public void mouseClicked(MouseEvent e) {
                     Object obj = e.getSource();
                     ColoredJRadioButton rb = (ColoredJRadioButton) obj;
-                    if(pickToolComboBox.getSelectedItem() == "Draw") {
-                        Color color = pickColor(pickColorComboBox.getSelectedItem().toString());
-                        rb.setColor(color);
-                    }else{
-                            rb.setIcon(null);
-                    }
+                    rb.doClick();
+                    drawRadioButton(rb, true);
                 }
 
                 @Override
@@ -74,6 +65,10 @@ public class CreateView{
 
                 }
 
+                @Override
+                public void mouseDragged(MouseEvent e) {
+
+                }
             });
             radioButtonsPanel.setSize(200,200);
             radioButtonsPanel.add(radioButtons[i]);
@@ -93,6 +88,7 @@ public class CreateView{
                 setViewTable();
                 pickedRadioButtons.clear();
                 pickedRadioButtonsColors.clear();
+
             }
         });
 
@@ -138,35 +134,18 @@ public class CreateView{
     }
 
     void setViewTable(){
-        HashMap<String, ArrayList<String>> viewtablenumbers = new HashMap<String, ArrayList<String>>();
-        String columns[] = new String[]{"ledNumber","color"};
+        String columns[] = new String[]{"led_number","led_color"};
+        viewName = viewNameTextField.getText();
 
         db.setDB();
-
-        try {viewtablenumbers = db.fetch(db.conn, "viewtablenumbers",new String[]{"id"});
-        }catch(Exception ex){}
-
-        ArrayList<String> ids = viewtablenumbers.get("id");
-        int lastID = Integer.valueOf(ids.get(ids.size()-1));
-        String tableName = "view"+(lastID+1);
-
-        try{db.createTable(db.conn, tableName,
-                new String[]{"id","ledNumber","color"},
-                new String[]{"SERIAL PRIMARY KEY", "INT","VARCHAR(20)" });
-        }catch(Exception ex){};
-
-        pickedRadioButtons.forEach((ledNumber) ->{
+       try{db.createView("views."+viewName);}catch(Exception ex){};
+       pickedRadioButtons.forEach((ledNumber) ->{
             int index = pickedRadioButtons.indexOf(ledNumber);
-            try{db.insert(db.conn, tableName, columns, new String[]{
+            try{db.insert( "views."+viewName, columns, new String[]{
                     Integer.toString(ledNumber),
                     pickedRadioButtonsColors.get(index)}
             );}catch(Exception ex){}
         });
-
-        try (Statement statement = db.conn.createStatement()) {
-            statement.executeQuery("INSERT INTO viewtablenumbers(name) VALUES('name');");
-        }catch(Exception ex){}
-
         db.closeConnection();
     }
 

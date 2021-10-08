@@ -13,6 +13,7 @@ public class MainForm extends JFrame implements ActionListener {
     private LEDs leds = new LEDs();
     private Menu menu = new Menu();
     private CreateView createView = new CreateView();
+    private PickView pickView = new PickView();
 
     CardLayout cl = new CardLayout();
 
@@ -20,10 +21,12 @@ public class MainForm extends JFrame implements ActionListener {
     private JPanel ledPanel = leds.led_panel;
     private JPanel menuPanel = menu.menuPanel;
     private JPanel createViewPanel = createView.createViewPanel;
+    private JPanel pickViewPanel = pickView.pickViewPanel;
 
     public JMenuItem configMenuItem = menu.config;
     public JMenuItem ledsMenuItem = menu.LEDs;
     public JMenuItem createViewMenuItem = menu.createView;
+    public JMenuItem pickViewMenuItem = menu.pickView;
 
     MainForm(){
         setSize(800,800);
@@ -37,6 +40,7 @@ public class MainForm extends JFrame implements ActionListener {
         mainPanel.add(preferencesPanel, "config");
         mainPanel.add(ledPanel, "LEDs");
         mainPanel.add(createViewPanel, "createView");
+        mainPanel.add(pickViewPanel, "pickView");
         menuPanel.add(mainPanel, BorderLayout.CENTER);
         menuActions();
     }
@@ -46,6 +50,7 @@ public class MainForm extends JFrame implements ActionListener {
         configMenuItem.addActionListener(this);
         ledsMenuItem.addActionListener(this);
         createViewMenuItem.addActionListener(this);
+        pickViewMenuItem.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -55,5 +60,7 @@ public class MainForm extends JFrame implements ActionListener {
             cl.show(mainPanel, "LEDs");
         if(e.getSource()==createViewMenuItem)
             cl.show(mainPanel, "createView");
+        if(e.getSource()==pickViewMenuItem)
+            cl.show(mainPanel, "pickView");
     }
 }
