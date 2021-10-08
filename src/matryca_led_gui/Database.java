@@ -56,7 +56,6 @@ public class Database {
         return data;
     }
 
-
     public void insert(String table, String[] columns, String[] values) throws SQLException {
         try (Statement statement = conn.createStatement()) {
             String columns_string = columns[0];
@@ -118,6 +117,5 @@ public class Database {
         try (Statement statement = conn.createStatement()) {
             statement.executeQuery("DROP TABLE "+viewName+";");}catch(Exception ex){}
     }
-
 
 }
