@@ -48,7 +48,7 @@ public class PickView {
                 String view = pickViewComboBox.getSelectedItem().toString();
                 HashMap<String, ArrayList<String>> viewData =  new HashMap<String, ArrayList<String>>();
                 try {
-                    viewData = db.fetch("views." + view, new String[]{"led_number", "led_color"});
+                    viewData = db.fetch(view, new String[]{"led_number", "led_color"});
                 } catch (Exception ex) {
                 }
                 JSONObject json_data = new JSONObject();

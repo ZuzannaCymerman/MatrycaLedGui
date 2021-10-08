@@ -11,12 +11,10 @@ public class Database {
     Database(){}
 
     public void setDB(){
-        String url = "jdbc:postgresql://localhost:5432/arduino_gui";
+        String url = "jdbc:sqlite:db/gui.db";
         Properties props = new Properties();
-        props.setProperty("user","arduino_db");
-        props.setProperty("password","123456");
         try {
-           conn = DriverManager.getConnection(url, props);
+           conn = DriverManager.getConnection(url);
         }
         catch(Exception e){
             System.out.println(e.toString());
@@ -47,9 +45,9 @@ public class Database {
     public ArrayList<String> fetchViews() throws SQLException{
         ArrayList<String> data = new ArrayList<String>();
         try (Statement statement = conn.createStatement()) {
-            ResultSet result = statement.executeQuery("select * from information_schema.tables where table_schema= 'views';");
+            ResultSet result = statement.executeQuery("select * from sqlite_master where type = 'table' and name not like 'networks';");
             while (result.next()) {
-                    String record = result.getString("table_name");
+                    String record = result.getString("name");
                     data.add(record);
             }
         } catch (SQLException e) {
@@ -74,9 +72,9 @@ public class Database {
         }
     }
 
-    public void delete(String table, String[] columns, String[] values) throws SQLException{
+    public void deleteNetwork(String networkSSID) throws SQLException{
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("DELETE FROM networks WHERE "+columns[0]+" = '"+values[0]+"' AND "+columns[1]+" = '"+values[1]+"';");
+            statement.executeQuery("DELETE FROM networks WHERE ssid = '"+networkSSID+"'");
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
@@ -102,24 +100,23 @@ public class Database {
             statement.executeQuery("CREATE TABLE " + viewName + "(id serial primary key, led_number int, led_color varchar(20));");
         } catch (SQLException ex) {
             try (Statement statement = conn.createStatement()) {
-                statement.executeQuery("TRUNCATE TABLE " + viewName + ";");
+                statement.executeQuery("TRUNCATE TABLE " + viewName + " RESTART IDENTITY;");
             } catch (SQLException e) {
             }
         }
     }
 
    public void clearViews(){
-        try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("DROP SCHEMA views CASCADE;");}catch(Exception ex){}
-        try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("CREATE SCHEMA views;");}catch(Exception ex){}
-        try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("TRUNCATE TABLE  viewtablenumbers;");}catch(Exception ex){}
+        ArrayList<String> views  = new ArrayList<String>();
+        try{views = fetchViews();}catch(Exception e){}
+        views.forEach((view) -> {
+           deleteView(view);
+        });
     }
 
     public void deleteView(String viewName){
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("DROP TABLE views."+viewName+";");}catch(Exception ex){}
+            statement.executeQuery("DROP TABLE "+viewName+";");}catch(Exception ex){}
     }
 
 

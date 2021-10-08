@@ -138,10 +138,10 @@ public class CreateView{
         viewName = viewNameTextField.getText();
 
         db.setDB();
-       try{db.createView("views."+viewName);}catch(Exception ex){};
+       try{db.createView(viewName);}catch(Exception ex){};
        pickedRadioButtons.forEach((ledNumber) ->{
             int index = pickedRadioButtons.indexOf(ledNumber);
-            try{db.insert( "views."+viewName, columns, new String[]{
+            try{db.insert( viewName, columns, new String[]{
                     Integer.toString(ledNumber),
                     pickedRadioButtonsColors.get(index)}
             );}catch(Exception ex){}
