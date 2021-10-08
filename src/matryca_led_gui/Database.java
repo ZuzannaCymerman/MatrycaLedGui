@@ -23,7 +23,7 @@ public class Database {
         }
     }
 
-    public HashMap fetch(Connection conn, String table, String[] columns) throws SQLException{
+    public HashMap fetch(String table, String[] columns) throws SQLException{
         HashMap<String, ArrayList<String>> data = new HashMap<String, ArrayList<String>>();
 
         for (String column: columns){
@@ -44,8 +44,22 @@ public class Database {
         return data;
     }
 
+    public ArrayList<String> fetchViews() throws SQLException{
+        ArrayList<String> data = new ArrayList<String>();
+        try (Statement statement = conn.createStatement()) {
+            ResultSet result = statement.executeQuery("select * from information_schema.tables where table_schema= 'views';");
+            while (result.next()) {
+                    String record = result.getString("table_name");
+                    data.add(record);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+        return data;
+    }
 
-    public void insert(Connection conn, String table, String[] columns, String[] values) throws SQLException {
+
+    public void insert(String table, String[] columns, String[] values) throws SQLException {
         try (Statement statement = conn.createStatement()) {
             String columns_string = columns[0];
             String values_string = "'"+values[0]+"'";
@@ -60,7 +74,7 @@ public class Database {
         }
     }
 
-    public void delete(Connection conn, String table, String[] columns, String[] values) throws SQLException{
+    public void delete(String table, String[] columns, String[] values) throws SQLException{
         try (Statement statement = conn.createStatement()) {
             statement.executeQuery("DELETE FROM networks WHERE "+columns[0]+" = '"+values[0]+"' AND "+columns[1]+" = '"+values[1]+"';");
         } catch (SQLException e) {
@@ -68,7 +82,7 @@ public class Database {
         }
     }
 
-    public void cleanTable(Connection conn, String table) throws SQLException{
+    public void cleanTable(String table) throws SQLException{
         try (Statement statement = conn.createStatement()) {
             statement.executeQuery("TRUNCATE TABLE "+table+" RESTART IDENTITY;");
         } catch (SQLException e) {
@@ -83,50 +97,24 @@ public class Database {
         }
     }
 
-    public void createTable(Connection conn,String tableName, String[] columns, String[] valueTypes) throws SQLException{
-
+    public void createView(String viewName) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("DROP TABLE "+tableName+";");
-
-        } catch (SQLException e) {
+            statement.executeQuery("CREATE TABLE " + viewName + "(id serial primary key, led_number int, led_color varchar(20));");
+        } catch (SQLException ex) {
             try (Statement statement = conn.createStatement()) {
-                statement.executeQuery("CREATE TABLE "+tableName+" ("+columns[0]+" "+valueTypes[0]+");");
-            } catch (SQLException ex) {System.out.println(e.toString());}
-
-            for(int i = 1;i< columns.length;i++){
-                try(Statement statement = conn.createStatement()){
-                    statement.executeQuery("ALTER TABLE "+tableName+" ADD "+columns[i]+" "+valueTypes[i]+";");
-                } catch (SQLException ex1) {System.out.println(e.toString());}
+                statement.executeQuery("TRUNCATE TABLE " + viewName + ";");
+            } catch (SQLException e) {
             }
         }
-
-
     }
 
-    void clearViewsDB(){
-        HashMap<String, ArrayList<String>> viewtablenumbers = new HashMap<String, ArrayList<String>>();
-        setDB();
-
-        try {viewtablenumbers = fetch(conn, "viewtablenumbers",new String[]{"id"});
-        }catch(Exception ex){}
-
-        ArrayList<String> ids = viewtablenumbers.get("id");
-
-        ids.forEach((id) ->{
-            try (Statement statement = conn.createStatement()) {
-                statement.executeQuery("DROP TABLE "+"view"+id+";");
-            }catch(Exception ex){}
-        });
-
+    void clearViews(){
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("DROP TABLE "+"viewtablenumbers"+";");}catch(Exception ex){}
-
-        try{createTable(conn, "viewtablenumbers",
-                new String[]{"id", "name"},
-                new String[]{"SERIAL PRIMARY KEY","VARCHAR (20)"});}catch(Exception ex){};
-
-        try{insert(conn, "viewtablenumbers", new String[]{"name"}, new String[]{"name"});}catch(Exception ex){}
-        closeConnection();
+            statement.executeQuery("DROP SCHEMA views CASCADE;");}catch(Exception ex){}
+        try (Statement statement = conn.createStatement()) {
+            statement.executeQuery("CREATE SCHEMA views;");}catch(Exception ex){}
+        try (Statement statement = conn.createStatement()) {
+            statement.executeQuery("TRUNCATE TABLE  viewtablenumbers;");}catch(Exception ex){}
     }
 
 }
