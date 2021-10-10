@@ -43,7 +43,6 @@ public class CreateView{
                 public void mouseClicked(MouseEvent e) {
                     Object obj = e.getSource();
                     ColoredJRadioButton rb = (ColoredJRadioButton) obj;
-                    rb.doClick();
                     drawRadioButton(rb, true);
                 }
 
@@ -80,19 +79,19 @@ public class CreateView{
         Color color = Color.black;
 
         switch(colorName){
-            case("Red"):
+            case("Czerwony"):
                 color = Color.red;
                 break;
-            case("Green"):
+            case("Zielony"):
                 color = Color.green;
                 break;
-            case("Blue"):
+            case("Niebieski"):
                 color = Color.blue;
                 break;
-            case("Yellow"):
+            case("Żólty"):
                 color = Color.yellow;
                 break;
-            case("Pink"):
+            case("Różowy"):
                 color = Color.pink;
                 break;
         }
@@ -134,7 +133,7 @@ public class CreateView{
 
 
     void drawRadioButton(ColoredJRadioButton rb, boolean pressed){
-        if(pickToolComboBox.getSelectedItem() == "Draw") {
+        if(pickToolComboBox.getSelectedItem() == "Rysuj") {
             if(pressed) {
                 if (!rb.isSelected()) {
                     rb.doClick();
