@@ -2,46 +2,111 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="matryca_led_gui.CreateView">
   <grid id="27dc6" binding="createViewPanel" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="32" y="16" width="632" height="719"/>
     </constraints>
     <properties>
+      <alignmentX value="0.5"/>
       <background color="-4143415"/>
       <preferredSize width="360" height="585"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="67c5d" binding="radioButtonsPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+      <component id="ece20" class="javax.swing.JLabel">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="13" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <grid id="67c5d" binding="radioButtonsPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="13" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <background color="-6052184"/>
+          <foreground color="-12828863"/>
+          <maximumSize width="360" height="580"/>
+          <minimumSize width="360" height="580"/>
           <preferredSize width="360" height="580"/>
         </properties>
         <border type="none"/>
         <children/>
       </grid>
-      <component id="c3ebf" class="javax.swing.JButton" binding="saveViewButton">
+      <component id="c2e9f" class="javax.swing.JComboBox" binding="pickToolComboBox">
         <constraints>
-          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="4" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Save"/>
+          <model>
+            <item value="Draw"/>
+            <item value="Erase"/>
+          </model>
+        </properties>
+      </component>
+      <component id="42848" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Pick tool"/>
+        </properties>
+      </component>
+      <component id="63d0b" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Insert view name"/>
+        </properties>
+      </component>
+      <component id="c5d0a" class="javax.swing.JTextField" binding="viewNameTextField">
+        <constraints>
+          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <preferredSize width="100" height="30"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="22dee" class="javax.swing.JButton" binding="clearAllButton" default-binding="true">
         <constraints>
-          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
           <text value="Clear all"/>
         </properties>
       </component>
+      <component id="c3ebf" class="javax.swing.JButton" binding="saveViewButton">
+        <constraints>
+          <grid row="2" column="6" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Save"/>
+        </properties>
+      </component>
+      <component id="10e6d" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Pick color"/>
+        </properties>
+      </component>
       <component id="5e07d" class="javax.swing.JComboBox" binding="pickColorComboBox">
         <constraints>
-          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
@@ -54,45 +119,17 @@
           </model>
         </properties>
       </component>
-      <component id="c2e9f" class="javax.swing.JComboBox" binding="pickToolComboBox">
+      <grid id="22945" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints>
-          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
+          <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.2"/>
         </constraints>
         <properties>
-          <model>
-            <item value="Draw"/>
-            <item value="Erase"/>
-          </model>
+          <background color="-4143415"/>
         </properties>
-      </component>
-      <component id="c5d0a" class="javax.swing.JTextField" binding="viewNameTextField">
-        <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
-          <gridbag weightx="0.1" weighty="0.0"/>
-        </constraints>
-        <properties/>
-      </component>
-      <component id="63d0b" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <text value="Insert view name"/>
-        </properties>
-      </component>
-      <component id="ece20" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <text value=""/>
-        </properties>
-      </component>
+        <border type="none"/>
+        <children/>
+      </grid>
     </children>
   </grid>
 </form>

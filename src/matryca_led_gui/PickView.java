@@ -14,7 +14,6 @@ public class PickView {
     public JPanel pickViewPanel;
     private JButton resetDatabaseButton;
     private JButton showButton;
-    private JButton refreshButton;
     private Database db = new Database();
     private WiFi wifi = new WiFi();
 
@@ -25,6 +24,7 @@ public class PickView {
             public void actionPerformed(ActionEvent e) {
                 db.setDB();
                 db.clearViews();
+                setPickViewComboBox();
                 db.closeConnection();
             }
         });
@@ -33,13 +33,8 @@ public class PickView {
             public void actionPerformed(ActionEvent e) {
                 db.setDB();
                 db.deleteView(pickViewComboBox.getSelectedItem().toString());
-                db.closeConnection();
-            }
-        });
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
                 setPickViewComboBox();
+                db.closeConnection();
             }
         });
         showButton.addActionListener(new ActionListener() {
