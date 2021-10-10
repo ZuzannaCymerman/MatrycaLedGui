@@ -5,7 +5,8 @@
       <xy x="32" y="8" width="758" height="171"/>
     </constraints>
     <properties>
-      <alignmentX value="1.0"/>
+      <alignmentX value="0.0"/>
+      <autoscrolls value="false"/>
       <background color="-4143415"/>
       <minimumSize width="1" height="1"/>
     </properties>
