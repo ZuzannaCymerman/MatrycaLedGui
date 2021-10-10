@@ -26,8 +26,6 @@ void setup() {
   EspSerial.begin(9600);
   
   WiFi.init(&EspSerial);
-
-
   wifi_status = setupWiFi(wifi_status);
   
   while(!WiFiworks(wifi_status)){
@@ -77,7 +75,8 @@ WiFiEspClient client = server.available();
           String json_data = client.readStringUntil('}');
           Serial.println(json_data);
 
-          state = jsonHashValue(json_data, "led");
+          //state = jsonHashValue(json_data, "led");
+          Serial.println(json_data);
           
           client.print(
               "HTTP/1.1 200 OK\r\n"
