@@ -3,7 +3,6 @@
 #include "WiFiEsp.h"
 #include "ArduinoJson.h"
 #include "EEPROM.h"
-#include "WifiConfiguration.h"
 
 SoftwareSerial EspSerial(10, 11);
 WiFiEspServer server(80);
@@ -66,7 +65,7 @@ void loop() {
              
                 client.print(
                       "HTTP/1.1 200 OK\r\n"
-                      "Connection: close\r\n" // the connection will be closed after completion of the response
+                      "Connection: close\r\n"
                       "\r\n");
                      
 
@@ -79,10 +78,6 @@ void loop() {
         delay(10);
         client.stop();
         Serial.println("Client disconnected");
-      }
-
-      if(ledNumbers[2] == 2){
-        Serial.println("ok");
       }
      
 }

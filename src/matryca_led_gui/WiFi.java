@@ -22,7 +22,6 @@ public class WiFi {
                         return response; } )
                     .thenApply(HttpResponse::body)
                     .thenAccept(System.out::println);
-           // var response = client.send(request, HttpResponse.BodyHandlers.ofString());
         }catch(Exception ex){};
 
     }
