@@ -117,17 +117,22 @@ public class CreateView{
         clearAllButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(int i = 0; i< radioButtons.length; i++){
-                    if(radioButtons[i].isSelected()){
-                        radioButtons[i].doClick();
-                        radioButtons[i].setIcon(null);
-                        pickedRadioButtons.clear();
-                        pickedRadioButtonsColors.clear();
-                    }
-                }
+               clearAll();
             }
         });
     }
+
+    void clearAll(){
+        for(int i = 0; i< radioButtons.length; i++){
+            if(radioButtons[i].isSelected()){
+                radioButtons[i].doClick();
+                radioButtons[i].setIcon(null);
+                pickedRadioButtons.clear();
+                pickedRadioButtonsColors.clear();
+            }
+        }
+    }
+
 
     void setViewTable(){
         String columns[] = new String[]{"led_number","led_color"};
@@ -178,6 +183,22 @@ public class CreateView{
         pickedRadioButtons.clear();
         pickedRadioButtonsColors.clear();
     }
+
+    void preview(String viewName){
+        clearAll();
+        HashMap<String, ArrayList<String>> viewData =  new HashMap<String, ArrayList<String>>();
+        try {
+            viewData = db.fetch(viewName, new String[]{"led_number", "led_color"});
+        } catch (Exception ex) {}
+
+        int ledQuantity = viewData.get("led_number").size();
+
+        for(int i=0;i<ledQuantity;i++){
+            int ledNumber = Integer.valueOf(viewData.get("led_number").get(i));
+        }
+
+    }
+
 
 
 
