@@ -77,7 +77,6 @@ public class CreateView{
 
     Color pickColor(String colorName){
         Color color = Color.black;
-
         switch(colorName){
             case("Czerwony"):
                 color = Color.red;
@@ -88,7 +87,7 @@ public class CreateView{
             case("Niebieski"):
                 color = Color.blue;
                 break;
-            case("Żólty"):
+            case("Żółty"):
                 color = Color.yellow;
                 break;
             case("Różowy"):
@@ -96,6 +95,24 @@ public class CreateView{
                 break;
         }
         return color;
+    }
+
+    String pickColorString(Color color){
+        String colorString = new String();
+        if(color == Color.red){
+            colorString = "1";
+        }
+        if(color == Color.green){
+            colorString = "2";
+        }
+        if(color == Color.blue){
+            colorString = "3";
+        }if(color == Color.yellow){
+            colorString = "4";
+        }if(color == Color.pink){
+            colorString = "5";
+        }
+        return colorString;
     }
 
     void setClearAllButton() {
@@ -155,8 +172,8 @@ public class CreateView{
             if(radioButtons[i].isSelected()){
                 pickedRadioButtons.add(i);
                 Color color = radioButtons[i].getColor();
-                String hex = "#"+Integer.toHexString(color.getRGB()).substring(2);
-                pickedRadioButtonsColors.add(hex);
+                String colorString = pickColorString(color);
+                pickedRadioButtonsColors.add(colorString);
             }
         }
         setViewTable();
