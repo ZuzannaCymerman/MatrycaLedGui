@@ -66,7 +66,6 @@ void setup() {
 
 void loop() {
 String state;
-
 WiFiEspClient client = server.available();
 
   if (client){
@@ -76,13 +75,20 @@ WiFiEspClient client = server.available();
           
           client.readStringUntil('|');
           String dataType = client.readStringUntil('|');
-          String ledQuantity = client.readStringUntil('[');
+          String ledQuantityStr = client.readStringUntil('[');
           String data = client.readStringUntil(']');
 
+           const char * ledQuantityChar = ledQuantityStr.c_str();
+           int ledQuantity = atoi(ledQuantityChar);
+
           data = "[" + data + "]";
+
+          Serial.println(data);
+          Serial.println(ledQuantity);
+          Serial.println(dataType);
           
           const size_t CAPACITY = JSON_ARRAY_SIZE(ledQuantity)+1000;
-          StaticJsonDocument<CAPACITY> doc;
+          DynamicJsonDocument doc(CAPACITY);
           deserializeJson(doc, data);
 
           JsonArray array = doc.as<JsonArray>();
@@ -94,28 +100,33 @@ WiFiEspClient client = server.available();
           if(dataType == "N"){
             ledNumbers = new int[ledQuantity];
             for(int i=0;i<ledQuantity;i++){
-              ledNumbers[i] = array[i].as<int>;
+              ledNumbers[i] = array[i].as<int>();
             }
           }
           
           else if(dataType == "C"){
             ledColors = new int[ledQuantity];
             for(int i=0;i<ledQuantity;i++){
-              ledColors[i] = array[i].as<int>;
+              ledColors[i] = array[i].as<int>();
             }
           }
+          
+            Serial.println(ledNumbers[2]);
+            Serial.println(ledColors[2]);
 
-          client.stop();
+          client.print(
+              "HTTP/1.1 200 OK\r\n"
+              "Connection: close\r\n"
+              "\r\n");
+            client.stop();
+          }
           digitalWrite(yellow, LOW);
-      
+          client.stop();
       }
       client.stop();  
-    }
-    client.stop();   
-  }
+    } 
 
-  Serial.println(ledNumbers);
-  Serial.println(ledColors);
+
  
 
   if(state == "on"){        

@@ -101,11 +101,9 @@ public class CreateView{
         String colorString = new String();
         if(color == Color.red){
             colorString = "1";
-        }
-        if(color == Color.green){
+        }if(color == Color.green){
             colorString = "2";
-        }
-        if(color == Color.blue){
+        }if(color == Color.blue){
             colorString = "3";
         }if(color == Color.yellow){
             colorString = "4";
