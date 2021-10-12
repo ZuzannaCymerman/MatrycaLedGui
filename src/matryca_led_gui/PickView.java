@@ -46,17 +46,18 @@ public class PickView {
                     viewData = db.fetch(view, new String[]{"led_number", "led_color"});
                 } catch (Exception ex) {
                 }
-                JSONObject ledNumber = new JSONObject();
-                JSONObject ledColor = new JSONObject();
-                ledNumber.put("led_number", viewData.get("led_number"));
-                ledColor.put("led_color", viewData.get("led_color"));
+
                 int ledQuantity = viewData.get("led_number").size();
-                String ledNumberRequest = "|N|"+ledQuantity+viewData.get("led_number");
-                String ledColorRequest = "|C|"+ledQuantity+viewData.get("led_color");
-                System.out.println(ledNumberRequest);
-                System.out.println(ledColorRequest);
-                wifi.sendRequest(ledNumberRequest);
-                wifi.sendRequest(ledColorRequest);
+                String ledNumbers = viewData.get("led_number").get(0);
+                String ledColors = viewData.get("led_color").get(0);
+                for (int i=1;i<ledQuantity;i++){
+                    ledNumbers = ledNumbers+"|"+viewData.get("led_number").get(i);
+                    ledColors = ledColors+"|"+viewData.get("led_color").get(i);
+                }
+
+                System.out.println(ledNumbers);
+                wifi.sendRequest("|"+ledQuantity+"|"+ledNumbers+"|"+ledColors+"|");
+
             }
         });
     }

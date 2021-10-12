@@ -7,135 +7,85 @@
 
 SoftwareSerial EspSerial(10, 11);
 WiFiEspServer server(80);
-int wifi_status;
+int status = WL_IDLE_STATUS;
+
 int* ledNumbers;
 int* ledColors;
-
-
-#define red 12
-#define green 13
-#define yellow 9
-#define test 8
-
+ 
 void setup() {
-  pinMode(red, OUTPUT); 
-  pinMode(green, OUTPUT);
-  pinMode(yellow, OUTPUT);
-  pinMode(test, OUTPUT);
-
-  digitalWrite(yellow, HIGH);
   
   Serial.begin(9600);
   EspSerial.begin(9600);
   
   WiFi.init(&EspSerial);
-  wifi_status = setupWiFi(wifi_status);
   
-  while(!WiFiworks(wifi_status)){
-    
-    digitalWrite(yellow, LOW);
-    digitalWrite(green, LOW);
-    digitalWrite(red, HIGH);
-     
-    while(Serial.available() == 0){}
-
-    digitalWrite(red, LOW);
-    digitalWrite(yellow, HIGH);
-
-    String ssid = Serial.readStringUntil('|');
-    String password = Serial.readStringUntil('|');    
-
-    clearEEPROM();
-    writeStringToEEPROM(0, ssid);
-    writeStringToEEPROM(20, password);
-
-    wifi_status = setupWiFi(wifi_status);
-    
-  }
-  if(WiFiworks(wifi_status)){
-    digitalWrite(yellow, LOW);
-    digitalWrite(red, LOW);
-    digitalWrite(green, HIGH);
-  }
+  status = WiFi.beginAP("Arduino");
+  
   IPAddress local_IP(192, 168, 0, 190);
-  WiFi.config(local_IP);
+  WiFi.configAP(local_IP);
   Serial.println(WiFi.localIP());
   server.begin();
-
 }
 
 void loop() {
-String state;
-WiFiEspClient client = server.available();
 
-  if (client){
-    digitalWrite(yellow, HIGH);
-     while (client.connected()){
-        while (client.available()){
-          
-          client.readStringUntil('|');
-          String dataType = client.readStringUntil('|');
-          String ledQuantityStr = client.readStringUntil('[');
-          String data = client.readStringUntil(']');
+   WiFiEspClient client = server.available();
+   int *ledNumbers;
+   int *ledColors;
 
-           const char * ledQuantityChar = ledQuantityStr.c_str();
-           int ledQuantity = atoi(ledQuantityChar);
+ if (client)
+    {
+        Serial.println("A client has connected");
 
-          data = "[" + data + "]";
+        while (client.connected())
+        {
+            if (client.available())
+            {
+              Serial.println("connected");
+              client.readStringUntil('|');
+              String ledQuantityStr = client.readStringUntil('|');
 
-          Serial.println(data);
-          Serial.println(ledQuantity);
-          Serial.println(dataType);
-          
-          const size_t CAPACITY = JSON_ARRAY_SIZE(ledQuantity)+1000;
-          DynamicJsonDocument doc(CAPACITY);
-          deserializeJson(doc, data);
+              const char * ledQuantityChar = ledQuantityStr.c_str();
+              int ledQuantity = atoi(ledQuantityChar);
 
-          JsonArray array = doc.as<JsonArray>();
-          
-          for(JsonVariant v : array) {
-              Serial.println(v.as<int>());
-          }
+              ledNumbers = new int[ledQuantity];
+              ledColors = new int[ledQuantity];    
+              
+                         
+              for(int i=0;i<ledQuantity;i++){
+                String dataStr = client.readStringUntil('|');
+                const char * dataChar = dataStr.c_str();
+                ledNumbers[i] = atoi(dataChar);
+              }
+              
+              for(int i=0;i<ledQuantity;i++){
+                String dataStr = client.readStringUntil('|');
+                const char * dataChar = dataStr.c_str();
+                ledColors[i] = atoi(dataChar);
+              }
+             
+                client.print(
+                      "HTTP/1.1 200 OK\r\n"
+                      "Connection: close\r\n" // the connection will be closed after completion of the response
+                      "\r\n");
+                     
 
-          if(dataType == "N"){
-            ledNumbers = new int[ledQuantity];
-            for(int i=0;i<ledQuantity;i++){
-              ledNumbers[i] = array[i].as<int>();
+                  client.stop();
+                
+
+                }
             }
-          }
-          
-          else if(dataType == "C"){
-            ledColors = new int[ledQuantity];
-            for(int i=0;i<ledQuantity;i++){
-              ledColors[i] = array[i].as<int>();
-            }
-          }
-          
-            Serial.println(ledNumbers[2]);
-            Serial.println(ledColors[2]);
 
-          client.print(
-              "HTTP/1.1 200 OK\r\n"
-              "Connection: close\r\n"
-              "\r\n");
-            client.stop();
-          }
-          digitalWrite(yellow, LOW);
-          client.stop();
+        delay(10);
+        client.stop();
+        Serial.println("Client disconnected");
       }
-      client.stop();  
-    } 
 
-
- 
-
-  if(state == "on"){        
-    digitalWrite(test, HIGH);             
-  }
-  else if(state =="off"){
-    digitalWrite(test, LOW);   
-  }
+      if(ledNumbers[2] == 2){
+        Serial.println("ok");
+      }
+     
+}
            
 
   
-}

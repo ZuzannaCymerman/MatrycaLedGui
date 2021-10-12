@@ -17,12 +17,12 @@ public class WiFi {
                 .POST(HttpRequest.BodyPublishers.ofString(json_data))
                 .build();
         try {
-          //  client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-            //        .thenApply(response -> { System.out.println(response.statusCode());
-             //           return response; } )
-             //       .thenApply(HttpResponse::body)
-             //       .thenAccept(System.out::println);
-            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+           client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(response -> { System.out.println(response.statusCode());
+                        return response; } )
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(System.out::println);
+           // var response = client.send(request, HttpResponse.BodyHandlers.ofString());
         }catch(Exception ex){};
 
     }
