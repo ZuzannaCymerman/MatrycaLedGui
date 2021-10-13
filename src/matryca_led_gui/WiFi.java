@@ -6,9 +6,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class WiFi {
-    WiFi(){
-
-    }
+    WiFi(){}
 
     void sendRequest(String json_data){
         HttpClient client = HttpClient.newHttpClient();

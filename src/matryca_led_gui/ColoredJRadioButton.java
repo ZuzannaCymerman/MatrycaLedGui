@@ -3,19 +3,17 @@ import java.awt.Color;
 import javax.swing.*;
 
 public class ColoredJRadioButton extends JRadioButton {
-    private Color instanceColor;
+    private LedColor instanceColor;
     private int instanceNumber;
 
     ColoredJRadioButton(){};
 
-    public Color getColor(){
+    public LedColor getColor(){
         return instanceColor;
     }
 
-    public void setColor(Color color){
-        ColorIcon colorIcon = new ColorIcon(18,18);
-        colorIcon.setBorderColor(color);
-        colorIcon.setColor(color);
+    public void setColor(LedColor color){
+        ColorIcon colorIcon = new ColorIcon(18,18, color);
         setIcon(colorIcon);
         instanceColor = color;
     }

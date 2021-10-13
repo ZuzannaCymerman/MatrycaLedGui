@@ -19,9 +19,18 @@ public class CreateView{
     private JTextField viewNameTextField;
     private String viewName;
     public ArrayList<Integer> pickedRadioButtons;
-    public ArrayList<String> pickedRadioButtonsColors;
+    public ArrayList<Integer> pickedRadioButtonsColors;
     private boolean pressed;
     private Database db = new Database();
+    public LedColor red = new LedColor(Color.red, 1);
+    public LedColor green = new LedColor(Color.green, 2);
+    public LedColor blue = new LedColor(Color.blue, 3);
+    public LedColor yellow = new LedColor(Color.yellow, 4);
+    public LedColor orange = new LedColor(Color.orange, 5);
+    public LedColor cyan = new LedColor(Color.cyan, 6);
+    public LedColor white = new LedColor(Color.white, 7);
+    public LedColor magenta = new LedColor(Color.magenta, 8);
+    public LedColor pink = new LedColor(Color.pink, 9);
 
     CreateView(){
         initializeJRadioButtons();
@@ -30,7 +39,7 @@ public class CreateView{
 
     private void initializeJRadioButtons(){
        pickedRadioButtons = new ArrayList<Integer>();
-       pickedRadioButtonsColors = new ArrayList<String>();
+       pickedRadioButtonsColors = new ArrayList<Integer>();
 
         for(int i = 0; i< radioButtons.length; i++){
             radioButtons[i] = new ColoredJRadioButton();
@@ -75,44 +84,6 @@ public class CreateView{
 
     }
 
-    Color pickColor(String colorName){
-        Color color = Color.black;
-        switch(colorName){
-            case("Czerwony"):
-                color = Color.red;
-                break;
-            case("Zielony"):
-                color = Color.green;
-                break;
-            case("Niebieski"):
-                color = Color.blue;
-                break;
-            case("Żółty"):
-                color = Color.yellow;
-                break;
-            case("Różowy"):
-                color = Color.pink;
-                break;
-        }
-        return color;
-    }
-
-    String pickColorString(Color color){
-        String colorString = new String();
-        if(color == Color.red){
-            colorString = "1";
-        }if(color == Color.green){
-            colorString = "2";
-        }if(color == Color.blue){
-            colorString = "3";
-        }if(color == Color.yellow){
-            colorString = "4";
-        }if(color == Color.pink){
-            colorString = "5";
-        }
-        return colorString;
-    }
-
     void setClearAllButton() {
         clearAllButton.addActionListener(new ActionListener() {
             @Override
@@ -139,7 +110,7 @@ public class CreateView{
             int index = pickedRadioButtons.indexOf(ledNumber);
             try{db.insert( viewName, columns, new String[]{
                     Integer.toString(ledNumber),
-                    pickedRadioButtonsColors.get(index)}
+                    pickedRadioButtonsColors.get(index).toString()}
             );}catch(Exception ex){}
         });
         db.closeConnection();
@@ -152,7 +123,7 @@ public class CreateView{
             if(pressed) {
                 if (!rb.isSelected()) {
                     rb.doClick();
-                    Color color = pickColor(pickColorComboBox.getSelectedItem().toString());
+                    LedColor color = pickColor(pickColorComboBox.getSelectedItem().toString());
                     rb.setColor(color);
                 }
             }
@@ -169,14 +140,48 @@ public class CreateView{
         for(int i = 0; i< radioButtons.length; i++){
             if(radioButtons[i].isSelected()){
                 pickedRadioButtons.add(i);
-                Color color = radioButtons[i].getColor();
-                String colorString = pickColorString(color);
-                pickedRadioButtonsColors.add(colorString);
+                LedColor color = radioButtons[i].getColor();
+                pickedRadioButtonsColors.add(color.code);
             }
         }
         setViewTable();
         pickedRadioButtons.clear();
         pickedRadioButtonsColors.clear();
+    }
+
+    LedColor pickColor(String pickedColorName){
+        LedColor color = new LedColor(Color.black, 1);
+        switch(pickedColorName){
+            case("Czerwony"):
+                color = red;
+                break;
+            case("Zielony"):
+                color = green;
+                break;
+            case("Niebieski"):
+                color = blue;
+                break;
+            case("Żółty"):
+                color = yellow;
+                break;
+            case("Pomarańczowy"):
+                color = orange;
+                break;
+            case("Błękitny"):
+                color = cyan;
+                break;
+            case("Biały"):
+                color = white;
+                break;
+            case("Ciemny róż"):
+                color = magenta;
+                break;
+            case("Różowy"):
+                color = pink;
+                break;
+        }
+        return color;
+
     }
 
 
