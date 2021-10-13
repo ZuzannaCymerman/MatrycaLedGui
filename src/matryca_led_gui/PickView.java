@@ -95,7 +95,7 @@ public class PickView {
 
                 System.out.println(ledNumbers);
                 System.out.println(ledColors);
-                wifi.sendRequest("|V|"+ledQuantity+"|"+ledColors+"|"+ledNumbers+"|");
+                wifi.sendRequest("|V|"+ledQuantity+"|"+ledNumbers+"|"+ledColors+"|");
             }
         });
     }

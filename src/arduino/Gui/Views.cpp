@@ -36,13 +36,12 @@ void showView(int ledNumbers[], int ledColors[], Adafruit_NeoPixel &pixels, int 
     int R = RGB[0];
     int G = RGB[1];
     int B = RGB[2];
-
-    if((R!= NULL)&&(G!=NULL)&&(B!=NULL)){
+     Serial.print(ledNumbers[i]);
       pixels.setPixelColor(ledNumbers[i], pixels.Color(R, G, B));
       pixels.show();
-    }
   }
-  Serial.println("show");
+  Serial.println(" show");
+ 
 }
 
 void stopView(Adafruit_NeoPixel &pixels){
