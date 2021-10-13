@@ -1,15 +1,11 @@
 
 #include "SoftwareSerial.h"
 #include "WiFiEsp.h"
-#include "ArduinoJson.h"
-#include "EEPROM.h"
+#include "Views.h"
 
 SoftwareSerial EspSerial(10, 11);
 WiFiEspServer server(80);
 int status = WL_IDLE_STATUS;
-
-int* ledNumbers;
-int* ledColors;
  
 void setup() {
   
@@ -47,30 +43,19 @@ void loop() {
               Serial.println(action);
               
               if(action == "V"){
-                String ledQuantityStr = client.readStringUntil('|');
-  
-                const char * ledQuantityChar = ledQuantityStr.c_str();
-                int ledQuantity = atoi(ledQuantityChar);
-  
-                ledNumbers = new int[ledQuantity];
-                ledColors = new int[ledQuantity];    
-                
-                           
-                for(int i=0;i<ledQuantity;i++){
-                  String dataStr = client.readStringUntil('|');
-                  const char * dataChar = dataStr.c_str();
-                  ledNumbers[i] = atoi(dataChar);
-                }
-                
-                for(int i=0;i<ledQuantity;i++){
-                  String dataStr = client.readStringUntil('|');
-                  const char * dataChar = dataStr.c_str();
-                  ledColors[i] = atoi(dataChar);
-                }
 
-                Serial.println(ledNumbers[2]);
-                Serial.println(ledColors[2]);
-              }
+                 int ledQuantity = receiveLedQuantity(client);
+                  
+                 ledNumbers = new int[ledQuantity];
+                 ledColors = new int[ledQuantity];    
+                
+                 receiveView(ledNumbers, ledColors, client, ledQuantity);
+  
+                 Serial.println(ledNumbers[2]);
+                 
+               }else if (action == "S"){
+                
+               }
              
                 client.print(
                       "HTTP/1.1 200 OK\r\n"

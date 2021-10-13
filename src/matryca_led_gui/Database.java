@@ -71,21 +71,6 @@ public class Database {
         }
     }
 
-    public void deleteNetwork(String networkSSID) throws SQLException{
-        try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("DELETE FROM networks WHERE ssid = '"+networkSSID+"'");
-        } catch (SQLException e) {
-            System.out.println(e.toString());
-        }
-    }
-
-    public void cleanTable(String table) throws SQLException{
-        try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("TRUNCATE TABLE "+table+" RESTART IDENTITY;");
-        } catch (SQLException e) {
-            System.out.println(e.toString());
-        }
-    }
     public void closeConnection(){
         try (Statement statement = conn.createStatement()) {
             statement.close();
@@ -96,7 +81,7 @@ public class Database {
 
     public void createView(String viewName) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("CREATE TABLE " + viewName + "(id serial primary key, led_number int, led_color varchar(20));");
+            statement.executeQuery("CREATE TABLE " + viewName + "(id serial primary key, led_number int, led_color int);");
         } catch (SQLException ex) {
             try (Statement statement = conn.createStatement()) {
                 statement.executeQuery("TRUNCATE TABLE " + viewName + " RESTART IDENTITY;");
