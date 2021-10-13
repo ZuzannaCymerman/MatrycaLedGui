@@ -180,6 +180,7 @@ public class CreateView{
                 color = pink;
                 break;
         }
+        System.out.println(color.color);
         return color;
 
     }

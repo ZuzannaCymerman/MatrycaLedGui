@@ -14,20 +14,43 @@ public class PickView {
     public JPanel pickViewPanel;
     private JButton resetDatabaseButton;
     private JButton showButton;
+    private JButton stopViewButton;
     private Database db = new Database();
     private WiFi wifi = new WiFi();
 
     public PickView() {
         setPickViewComboBox();
-        resetDatabaseButton.addActionListener(new ActionListener() {
+        setDeleteFromDatabaseButton();
+        setShowButton();
+        setResetDatabaseButton();
+        setStopViewButton();
+
+
+
+
+    }
+
+    public void setPickViewComboBox(){
+        pickViewComboBox.removeAllItems();
+        ArrayList<String> views = new ArrayList<String>();
+        db.setDB();
+        try{views =  db.fetchViews();}catch(Exception e){}
+        views.forEach((view) -> {
+            pickViewComboBox.addItem(view);
+        });
+        db.closeConnection();
+    }
+
+    public void setStopViewButton(){
+        stopViewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                db.setDB();
-                db.clearViews();
-                setPickViewComboBox();
-                db.closeConnection();
+                wifi.sendRequest("|S|");
             }
         });
+    }
+
+    public void setDeleteFromDatabaseButton(){
         deleteFromDatabaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,6 +60,21 @@ public class PickView {
                 db.closeConnection();
             }
         });
+    }
+
+    public void setResetDatabaseButton(){
+        resetDatabaseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                db.setDB();
+                db.clearViews();
+                setPickViewComboBox();
+                db.closeConnection();
+            }
+        });
+    }
+
+    public void setShowButton(){
         showButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,19 +95,9 @@ public class PickView {
 
                 System.out.println(ledNumbers);
                 System.out.println(ledColors);
-                wifi.sendRequest("|V|"+ledQuantity+"|"+ledNumbers+"|"+ledColors+"|");
+                wifi.sendRequest("|V|"+ledQuantity+"|"+ledColors+"|"+ledNumbers+"|");
             }
         });
     }
 
-    public void setPickViewComboBox(){
-        pickViewComboBox.removeAllItems();
-        ArrayList<String> views = new ArrayList<String>();
-        db.setDB();
-        try{views =  db.fetchViews();}catch(Exception e){}
-        views.forEach((view) -> {
-            pickViewComboBox.addItem(view);
-        });
-        db.closeConnection();
-    }
 }
