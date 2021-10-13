@@ -23,3 +23,7 @@ int receiveLedQuantity(WiFiEspClient client){
 
    return ledQuantity;
 }
+
+void showView(int ledNumbers[], int ledColors[]){
+  
+}

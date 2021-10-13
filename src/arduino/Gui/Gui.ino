@@ -19,23 +19,24 @@ void setup() {
   IPAddress local_IP(192, 168, 0, 190);
   WiFi.configAP(local_IP);
   Serial.println(WiFi.localIP());
+  
   server.begin();
 }
 
 void loop() {
 
-   WiFiEspClient client = server.available();
-   int *ledNumbers;
-   int *ledColors;
+WiFiEspClient client = server.available();
+int *ledNumbers;
+int *ledColors;
 
  if (client)
     {
         Serial.println("A client has connected");
 
-        while (client.connected())
-        {
-            if (client.available())
-            {
+        while (client.connected()){
+          
+            if (client.available()){
+              
               Serial.println("connected");
               client.readStringUntil('|');
               String action = client.readStringUntil('|');
@@ -62,10 +63,8 @@ void loop() {
                       "Connection: close\r\n"
                       "\r\n");
                      
-
-                  client.stop();
+                client.stop();
                 
-
                 }
             }
 
