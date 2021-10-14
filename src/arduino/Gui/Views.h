@@ -7,4 +7,7 @@ void receiveView(int ledNumbers[], int ledColors[], WiFiEspClient client, int le
 int receiveLedQuantity(WiFiEspClient client);
 void showView(int ledNumbers[], int ledColors[], Adafruit_NeoPixel &pixels, int ledQuantity);
 void getRGB(int ledColor, int RGB[]);
+void stopView(Adafruit_NeoPixel &pixels);
+void setPixel(int ledColor, int led, Adafruit_NeoPixel &pixels);
+void clientStop(WiFiEspClient client);
 #endif
