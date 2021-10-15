@@ -42,7 +42,7 @@ run = true;
     if(!stop){
        showView(ledNumbers,ledColors, pixels, ledQuantity);
     }
-   
+
     WiFiEspClient client = server.available();
     if (client)
       {
@@ -59,6 +59,8 @@ run = true;
                 Serial.println(action);
                 
                 if(action == "V"){
+                      delete[] ledNumbers;
+                      delete[] ledColors;
       
                   stop = false;
                   
@@ -68,14 +70,15 @@ run = true;
                    ledColors = new int[ledQuantity];    
                   
                    receiveView(ledNumbers, ledColors, client, ledQuantity);
+                    clientStop(client);
     
                    Serial.println(ledNumbers[2]);
                    
-                 }else if (action == "S"){
-                    clientStop(client);  
+                 }else if (action == "S"){ 
                     stop = true;                   
                     pixels.clear();
                     Serial.println("stop");
+                    clientStop(client); 
                    
                  }
                

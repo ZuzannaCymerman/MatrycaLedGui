@@ -2,7 +2,7 @@
 #include "WiFiEsp.h"
 #include <Adafruit_NeoPixel.h>
 
-void receiveView(int ledNumbers[], int ledColors[], WiFiEspClient client, int ledQuantity){
+void receiveView(int *ledNumbers, int *ledColors, WiFiEspClient client, int ledQuantity){
 
   for(int i=0;i<ledQuantity;i++){
     String dataStr = client.readStringUntil('|');
@@ -15,7 +15,7 @@ void receiveView(int ledNumbers[], int ledColors[], WiFiEspClient client, int le
     const char * dataChar = dataStr.c_str();
     ledColors[i] = atoi(dataChar);
   }
-  clientStop(client);
+
 }
 
 int receiveLedQuantity(WiFiEspClient client){
@@ -26,7 +26,7 @@ int receiveLedQuantity(WiFiEspClient client){
    return ledQuantity;
 }
 
-void showView(int ledNumbers[], int ledColors[], Adafruit_NeoPixel &pixels, int ledQuantity){
+void showView(int *ledNumbers, int *ledColors, Adafruit_NeoPixel &pixels, int ledQuantity){
   pixels.clear();
 
   for(int i=0; i<ledQuantity; i++) {
