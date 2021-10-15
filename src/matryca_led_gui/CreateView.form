@@ -89,6 +89,10 @@
             <item value="Niebieski"/>
             <item value="Żółty"/>
             <item value="Różowy"/>
+            <item value="Pomarańczowy"/>
+            <item value="Błękitny"/>
+            <item value="Biały"/>
+            <item value="Ciemny róż"/>
           </model>
         </properties>
       </component>
@@ -98,7 +102,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Wyczyść widok"/>
+          <text value="Wyczyść"/>
         </properties>
       </component>
       <component id="c2e9f" class="javax.swing.JComboBox" binding="pickToolComboBox">

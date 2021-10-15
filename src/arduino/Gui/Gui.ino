@@ -2,16 +2,27 @@
 #include "SoftwareSerial.h"
 #include "WiFiEsp.h"
 #include "Views.h"
+#include "VirtualWire.h"
+
+#define LED_COUNT 200
+#define LED_PIN 45
 
 SoftwareSerial EspSerial(10, 11);
 WiFiEspServer server(80);
 int status = WL_IDLE_STATUS;
+Adafruit_NeoPixel pixels(LED_COUNT,LED_PIN, NEO_RGB+NEO_KHZ800);
+String action;
+boolean run;
+boolean stop = true;
+int *ledNumbers;
+int *ledColors;
+int ledQuantity;
  
 void setup() {
-  
   Serial.begin(9600);
   EspSerial.begin(9600);
-  
+  pinMode(LED_PIN, OUTPUT);
+
   WiFi.init(&EspSerial);
   
   status = WiFi.beginAP("LedMatrix");
@@ -25,53 +36,55 @@ void setup() {
 
 void loop() {
 
-WiFiEspClient client = server.available();
-int *ledNumbers;
-int *ledColors;
-
- if (client)
-    {
-        Serial.println("A client has connected");
-
-        while (client.connected()){
-          
-            if (client.available()){
-              
-              Serial.println("connected");
-              client.readStringUntil('|');
-              String action = client.readStringUntil('|');
-
-              Serial.println(action);
-              
-              if(action == "V"){
-
-                 int ledQuantity = receiveLedQuantity(client);
-                  
-                 ledNumbers = new int[ledQuantity];
-                 ledColors = new int[ledQuantity];    
-                
-                 receiveView(ledNumbers, ledColors, client, ledQuantity);
+run = true;
+ 
+  while(run){
+    if(!stop){
+       showView(ledNumbers,ledColors, pixels, ledQuantity);
+    }
+   
+    WiFiEspClient client = server.available();
+    if (client)
+      {
+          Serial.println("A client has connected");
   
-                 Serial.println(ledNumbers[2]);
-                 
-               }else if (action == "S"){
+          while (client.connected()){
+            
+              if (client.available()){
                 
+                Serial.println("connected");
+                client.readStringUntil('|');
+                action = client.readStringUntil('|');
+  
+                Serial.println(action);
+                
+                if(action == "V"){
+      
+                  stop = false;
+                  
+                   ledQuantity = receiveLedQuantity(client);
+                    
+                   ledNumbers = new int[ledQuantity];
+                   ledColors = new int[ledQuantity];    
+                  
+                   receiveView(ledNumbers, ledColors, client, ledQuantity);
+    
+                   Serial.println(ledNumbers[2]);
+                   
+                 }else if (action == "S"){
+                    clientStop(client);  
+                    stop = true;                   
+                    pixels.clear();
+                    Serial.println("stop");
+                   
+                 }
+               
                }
-             
-                client.print(
-                      "HTTP/1.1 200 OK\r\n"
-                      "Connection: close\r\n"
-                      "\r\n");
-                     
-                client.stop();
-                
-                }
             }
-
-        delay(10);
-        client.stop();
-        Serial.println("Client disconnected");
-      }
+              clientStop(client);  
+        } 
+  }
+ 
      
 }
            
