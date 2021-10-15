@@ -3,11 +3,7 @@
 #include "WiFiEsp.h"
 #include <Adafruit_NeoPixel.h>
 
-void receiveView(int *ledNumbers, int *ledColors, WiFiEspClient client, int ledQuantity);
-int receiveLedQuantity(WiFiEspClient client);
-void showView(int *ledNumbers, int *ledColors, Adafruit_NeoPixel &pixels, int ledQuantity);
-void getRGB(int ledColor, int RGB[]);
-void stopView(Adafruit_NeoPixel &pixels);
-void setPixel(int ledColor, int led, Adafruit_NeoPixel &pixels);
+void showView(char *ledNumbers, char (*ledColors)[3],Adafruit_NeoPixel &pixels);
+void getRGB(char ledColor, char *RGB);
 void clientStop(WiFiEspClient client);
 #endif

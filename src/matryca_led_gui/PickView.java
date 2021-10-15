@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class PickView {
@@ -24,10 +25,6 @@ public class PickView {
         setShowButton();
         setResetDatabaseButton();
         setStopViewButton();
-
-
-
-
     }
 
     public void setPickViewComboBox(){
@@ -86,16 +83,27 @@ public class PickView {
                 }
 
                 int ledQuantity = viewData.get("led_number").size();
-                String ledNumbers = viewData.get("led_number").get(0);
-                String ledColors = viewData.get("led_color").get(0);
-                for (int i=1;i<ledQuantity;i++){
-                    ledNumbers = ledNumbers+"|"+viewData.get("led_number").get(i);
-                    ledColors = ledColors+"|"+viewData.get("led_color").get(i);
+
+                int[] ledNumbersBinary = new int[200];
+                int[] ledColorsBinary = new int[200];
+                Arrays.fill(ledNumbersBinary, 0);
+                Arrays.fill(ledColorsBinary, 0);
+                String requestString ="";
+
+                for(int i=0;i<ledQuantity;i++){
+                    int index =  Integer.valueOf(viewData.get("led_number").get(i));
+                    ledNumbersBinary[index] = 1;
+                    ledColorsBinary[index] = Integer.valueOf(viewData.get("led_color").get(i));
+                }
+                for(int i =0;i<200;i++){
+                    requestString = requestString + ledNumbersBinary[i];
+                }
+                for(int i =0;i<200;i++){
+                    requestString = requestString + ledColorsBinary[i];
                 }
 
-                System.out.println(ledNumbers);
-                System.out.println(ledColors);
-                wifi.sendRequest("|V|"+ledQuantity+"|"+ledNumbers+"|"+ledColors+"|");
+                System.out.println(requestString);
+                wifi.sendRequest("|V|"+requestString);
             }
         });
     }

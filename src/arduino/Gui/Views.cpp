@@ -2,93 +2,85 @@
 #include "WiFiEsp.h"
 #include <Adafruit_NeoPixel.h>
 
-void receiveView(int *ledNumbers, int *ledColors, WiFiEspClient client, int ledQuantity){
-
-  for(int i=0;i<ledQuantity;i++){
-    String dataStr = client.readStringUntil('|');
-    const char * dataChar = dataStr.c_str();
-    ledNumbers[i] = atoi(dataChar);
-  }
-  
-  for(int i=0;i<ledQuantity;i++){
-    String dataStr = client.readStringUntil('|');
-    const char * dataChar = dataStr.c_str();
-    ledColors[i] = atoi(dataChar);
-  }
-
-}
-
-int receiveLedQuantity(WiFiEspClient client){
-   String ledQuantityStr = client.readStringUntil('|');
-   const char * ledQuantityChar = ledQuantityStr.c_str();
-   int ledQuantity = atoi(ledQuantityChar);
-
-   return ledQuantity;
-}
-
-void showView(int *ledNumbers, int *ledColors, Adafruit_NeoPixel &pixels, int ledQuantity){
+void showView(char *ledNumbers,char (*ledColors)[3], Adafruit_NeoPixel &pixels){
   pixels.clear();
+  int offset = 150;
 
-  for(int i=0; i<ledQuantity; i++) {
-      Serial.print(ledNumbers[i]);
-      setPixel(ledColors[i],ledNumbers[i], pixels);
+  for(int i=0; i<200; i++) {
+      if(ledNumbers[i] == '1'){
+       int R = int(ledColors[i][0]+offset);
+       int G = int(ledColors[i][1]+offset);
+       int B = int(ledColors[i][2]+offset);
+      pixels.setPixelColor(i, pixels.Color(R, G, B));
+      pixels.show(); 
+      Serial.print("| n: ");
+      Serial.print(i);
+      Serial.print(" c: ");
+      Serial.print(R);
+      Serial.print(G);
+      Serial.print(B);
+      }     
   }
   Serial.println(" show");
- 
-}
+} 
 
-void stopView(Adafruit_NeoPixel &pixels){
-  pixels.clear();
-}
-
-void setPixel(int ledColor, int led, Adafruit_NeoPixel &pixels){
+void getRGB(char ledColor, char *RGB){
+int  offset = 150;
   switch(ledColor){
-    case 1:
-      //red
-      pixels.setPixelColor(led, pixels.Color(255, 0, 0));
-      pixels.show();
+    case '1':
+      RGB[0] = char(255-offset);
+      RGB[1] = char(0-offset);
+      RGB[2] = char(0-offset);
       break;
-    case 2:
+    case '2':
       //green
-      pixels.setPixelColor(led, pixels.Color(0, 255, 0));
-      pixels.show();    
+      RGB[0] = char(0-offset);
+      RGB[1] = char(255-offset);
+      RGB[2] = char(0-offset);  
       break;
-    case 3:
+    case '3':
       //blue
-      pixels.setPixelColor(led, pixels.Color(0, 0, 255));
-      pixels.show();  
+      RGB[0] = char(0-offset);
+      RGB[1] = char(0-offset);
+      RGB[2] = char(255-offset);
       break;
-    case 4:
+    case '4':
       //yellow
-      pixels.setPixelColor(led, pixels.Color(255, 255, 0));
-      pixels.show();  
+      RGB[0] = char(255-offset);
+      RGB[1] = char(255-offset);
+      RGB[2] = char(0-offset);
       break;
-    case 5:
+    case '5':
       //orange
-      pixels.setPixelColor(led, pixels.Color(255, 200, 0));
-      pixels.show();  
+      RGB[0] = char(255-offset);
+      RGB[1] = char(200-offset);
+      RGB[2] = char(0-offset);
       break;
-    case 6:
+    case '6':
       //cyan
-      pixels.setPixelColor(led, pixels.Color(0, 255, 255));
-      pixels.show();  
+      RGB[0] = char(0-offset);
+      RGB[1] = char(255-offset);
+      RGB[2] = char(255-offset);
       break;
-    case 7:
+    case '7':
       //white
-      pixels.setPixelColor(led, pixels.Color(255, 255, 255));
-      pixels.show();  
+      RGB[0] = char(255-offset);
+      RGB[1] = char(255-offset);
+      RGB[2] = char(255-offset);
       break;
-    case 8:
+    case '8':
       //magenta
-      pixels.setPixelColor(led, pixels.Color(255, 0, 255));
-      pixels.show();  
+      RGB[0] = char(255-offset);
+      RGB[1] = char(0-offset);
+      RGB[2] = char(255-offset);
       break;
-    case 9:
+    case '9':
       //pink
-      pixels.setPixelColor(led, pixels.Color(255, 175, 175));
-      pixels.show();  
+      RGB[0] = char(255-offset);
+      RGB[1] = char(175-offset);
+      RGB[2] = char(175-offset);
       break;
-  }    
+  }   
 }
 
 void clientStop(WiFiEspClient client){

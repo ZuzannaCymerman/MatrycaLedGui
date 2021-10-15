@@ -2,7 +2,6 @@
 #include "SoftwareSerial.h"
 #include "WiFiEsp.h"
 #include "Views.h"
-#include "VirtualWire.h"
 
 #define LED_COUNT 200
 #define LED_PIN 45
@@ -14,9 +13,10 @@ Adafruit_NeoPixel pixels(LED_COUNT,LED_PIN, NEO_RGB+NEO_KHZ800);
 String action;
 boolean run;
 boolean stop = true;
-int *ledNumbers;
-int *ledColors;
-int ledQuantity;
+
+char ledNumbers[200];
+char ledColors[200][3];
+char RGB[3];
  
 void setup() {
   Serial.begin(9600);
@@ -40,39 +40,43 @@ run = true;
  
   while(run){
     if(!stop){
-       showView(ledNumbers,ledColors, pixels, ledQuantity);
+       showView(ledNumbers,ledColors, pixels);
     }
 
     WiFiEspClient client = server.available();
     if (client)
       {
-          Serial.println("A client has connected");
+         Serial.println("A client has connected");
   
           while (client.connected()){
             
               if (client.available()){
-                
-                Serial.println("connected");
+               
                 client.readStringUntil('|');
                 action = client.readStringUntil('|');
   
                 Serial.println(action);
                 
                 if(action == "V"){
-                      delete[] ledNumbers;
-                      delete[] ledColors;
-      
                   stop = false;
                   
-                   ledQuantity = receiveLedQuantity(client);
-                    
-                   ledNumbers = new int[ledQuantity];
-                   ledColors = new int[ledQuantity];    
+                  for(int i=0;i<200;i++){
+                    char data = client.read();
+                    ledNumbers[i] = data;
+                  }
                   
-                   receiveView(ledNumbers, ledColors, client, ledQuantity);
-                    clientStop(client);
-    
-                   Serial.println(ledNumbers[2]);
+                  for(int i=0;i<200;i++){
+                    char data = client.read();
+                    getRGB(data, RGB);
+                    ledColors[i][0] = RGB[0];
+                    ledColors[i][1] = RGB[1];
+                    ledColors[i][2] = RGB[2];
+                    
+                  }
+
+                  Serial.println("Data collected");
+                  
+                  clientStop(client);
                    
                  }else if (action == "S"){ 
                     stop = true;                   
@@ -82,9 +86,8 @@ run = true;
                    
                  }
                
-               }
-            }
-              clientStop(client);  
+              }
+           }
         } 
   }
  
