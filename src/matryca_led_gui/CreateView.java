@@ -21,6 +21,7 @@ public class CreateView{
     public ArrayList<Integer> pickedRadioButtons;
     public ArrayList<Integer> pickedRadioButtonsColors;
     private boolean pressed;
+    private boolean isSelectedOnEntered;
     private Database db = new Database();
     public LedColor red = new LedColor(Color.red, 1);
     public LedColor green = new LedColor(Color.green, 2);
@@ -52,7 +53,7 @@ public class CreateView{
                 public void mouseClicked(MouseEvent e) {
                     Object obj = e.getSource();
                     ColoredJRadioButton rb = (ColoredJRadioButton) obj;
-                    drawRadioButton(rb, true);
+                    drawRadioButtonOnClick(rb);
                 }
 
                 @Override
@@ -69,8 +70,7 @@ public class CreateView{
                 public void mouseEntered(MouseEvent e) {
                     Object obj = e.getSource();
                     ColoredJRadioButton rb = (ColoredJRadioButton) obj;
-                    drawRadioButton(rb, pressed);
-
+                    drawRadioButtononPressed(rb, pressed);
                 }
 
                 @Override
@@ -118,23 +118,42 @@ public class CreateView{
 
 
 
-    void drawRadioButton(ColoredJRadioButton rb, boolean pressed){
+    void drawRadioButtononPressed(ColoredJRadioButton rb, boolean pressed){
         if(pickToolComboBox.getSelectedItem() == "Rysuj") {
             if(pressed) {
                 if (!rb.isSelected()) {
                     rb.doClick();
                     LedColor color = pickColor(pickColorComboBox.getSelectedItem().toString());
                     rb.setColor(color);
+                    isSelectedOnEntered = true;
                 }
             }
         }else{
             if(pressed) {
                 if (rb.isSelected()) {
                     rb.doClick();
+                    System.out.println(rb.isSelected());
                     rb.setIcon(null);
                 }
             }
         }
+    }
+
+    void drawRadioButtonOnClick(ColoredJRadioButton rb){
+        if(pickToolComboBox.getSelectedItem() == "Rysuj") {
+           LedColor color = pickColor(pickColorComboBox.getSelectedItem().toString());
+           rb.setColor(color);
+           if(isSelectedOnEntered){
+               rb.doClick();
+               isSelectedOnEntered = false;
+           }
+        }else{
+            rb.setIcon(null);
+            if(rb.isSelected()){
+                rb.doClick();
+            }
+        }
+        System.out.println(rb.isSelected());
     }
     void saveView(){
         for(int i = 0; i< radioButtons.length; i++){

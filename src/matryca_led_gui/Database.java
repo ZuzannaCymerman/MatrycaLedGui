@@ -45,7 +45,7 @@ public class Database {
     public ArrayList<String> fetchViews() throws SQLException{
         ArrayList<String> data = new ArrayList<String>();
         try (Statement statement = conn.createStatement()) {
-            ResultSet result = statement.executeQuery("select * from sqlite_master where type = 'table' and name not like 'networks';");
+            ResultSet result = statement.executeQuery("select * from sqlite_master where type = 'table' and name not like 'sqlite_sequence';");
             while (result.next()) {
                     String record = result.getString("name");
                     data.add(record);
@@ -81,13 +81,18 @@ public class Database {
 
     public void createView(String viewName) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("CREATE TABLE " + viewName + "(id serial primary key, led_number int, led_color int);");
+            statement.executeQuery("CREATE TABLE " + viewName + "(id integer primary key autoincrement, led_number int, led_color int);");
         } catch (SQLException ex) {
+            System.out.println(ex);
             try (Statement statement = conn.createStatement()) {
-                statement.executeQuery("TRUNCATE TABLE " + viewName + " RESTART IDENTITY;");
-            } catch (SQLException e) {
-            }
+                statement.executeQuery("delete from "+viewName+";");
+            } catch (Exception e){System.out.println(e);}
+            try (Statement statement = conn.createStatement()) {
+                statement.executeQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='"+viewName+"';");
+            } catch (Exception e){System.out.println(e);}
+
         }
+
     }
 
    public void clearViews(){
