@@ -10,8 +10,8 @@ SoftwareSerial EspSerial(10, 11);
 WiFiEspServer server(80);
 int status = WL_IDLE_STATUS;
 Adafruit_NeoPixel pixels(LED_COUNT,LED_PIN, NEO_RGB+NEO_KHZ800);
+
 String action;
-boolean run;
 boolean stop = true;
 
 char ledNumbers[200];
@@ -36,9 +36,6 @@ void setup() {
 
 void loop() {
 
-run = true;
- 
-  while(run){
     if(!stop){
        showView(ledNumbers,ledColors, pixels);
     }
@@ -89,7 +86,6 @@ run = true;
               }
            }
         } 
-  }
  
      
 }

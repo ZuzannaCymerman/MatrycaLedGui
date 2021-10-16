@@ -4,7 +4,7 @@
 
 void showView(char *ledNumbers,char (*ledColors)[3], Adafruit_NeoPixel &pixels){
   pixels.clear();
-  int offset = 150;
+  int offset = 128;
 
   for(int i=0; i<200; i++) {
       if(ledNumbers[i] == '1'){
@@ -13,19 +13,13 @@ void showView(char *ledNumbers,char (*ledColors)[3], Adafruit_NeoPixel &pixels){
        int B = int(ledColors[i][2]+offset);
       pixels.setPixelColor(i, pixels.Color(R, G, B));
       pixels.show(); 
-      Serial.print("| n: ");
-      Serial.print(i);
-      Serial.print(" c: ");
-      Serial.print(R);
-      Serial.print(G);
-      Serial.print(B);
       }     
   }
   Serial.println(" show");
 } 
 
 void getRGB(char ledColor, char *RGB){
-int  offset = 150;
+int  offset = 128;
   switch(ledColor){
     case '1':
       RGB[0] = char(255-offset);
