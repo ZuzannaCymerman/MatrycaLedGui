@@ -57,19 +57,7 @@ void loop() {
                 if(action == "V"){
                   stop = false;
                   
-                  for(int i=0;i<200;i++){
-                    char data = client.read();
-                    ledNumbers[i] = data;
-                  }
-                  
-                  for(int i=0;i<200;i++){
-                    char data = client.read();
-                    getRGB(data, RGB);
-                    ledColors[i][0] = RGB[0];
-                    ledColors[i][1] = RGB[1];
-                    ledColors[i][2] = RGB[2];
-                    
-                  }
+                 receiveView(ledNumbers,ledColors, RGB, client);
 
                   Serial.println("Data collected");
                   
