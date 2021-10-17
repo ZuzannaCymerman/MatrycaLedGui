@@ -148,6 +148,7 @@ public class CreateView{
         }
         System.out.println(rb.isSelected());
     }
+
     void saveView(){
         for(int i = 0; i< 200; i++){
             if(radioButtons[i].isSelected()){
