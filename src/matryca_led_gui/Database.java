@@ -56,7 +56,7 @@ public class Database {
         return data;
     }
 
-    public void insert(String table, String[] columns, String[] values) throws SQLException {
+    public void insert(String table, String[] columns, int[] values) throws SQLException {
         try (Statement statement = conn.createStatement()) {
             String columns_string = columns[0];
             String values_string = "'"+values[0]+"'";
@@ -81,15 +81,15 @@ public class Database {
 
     public void createView(String viewName) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("CREATE TABLE " + viewName + "(id integer primary key autoincrement, led_number int, led_color int);");
+            statement.executeQuery("CREATE TABLE " + viewName + "(led_number int, led_value int, led_color int);");
         } catch (SQLException ex) {
             System.out.println(ex);
             try (Statement statement = conn.createStatement()) {
                 statement.executeQuery("delete from "+viewName+";");
             } catch (Exception e){System.out.println(e);}
-            try (Statement statement = conn.createStatement()) {
-                statement.executeQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='"+viewName+"';");
-            } catch (Exception e){System.out.println(e);}
+           // try (Statement statement = conn.createStatement()) {
+            //    statement.executeQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='"+viewName+"';");
+           // } catch (Exception e){System.out.println(e);}
 
         }
 
