@@ -22,6 +22,7 @@ public class Database {
     }
 
     public HashMap fetch(String table, String[] columns) throws SQLException{
+        setDB();
         HashMap<String, ArrayList<String>> data = new HashMap<String, ArrayList<String>>();
 
         for (String column: columns){
@@ -39,10 +40,12 @@ public class Database {
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
+        closeConnection();
         return data;
     }
 
     public ArrayList<String> fetchViews() throws SQLException{
+        setDB();
         ArrayList<String> data = new ArrayList<String>();
         try (Statement statement = conn.createStatement()) {
             ResultSet result = statement.executeQuery("select * from sqlite_master where type = 'table' and name not like 'sqlite_sequence';");
@@ -53,10 +56,12 @@ public class Database {
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
+        closeConnection();
         return data;
     }
 
     public void insert(String table, String[] columns, int[] values) throws SQLException {
+        setDB();
         try (Statement statement = conn.createStatement()) {
             String columns_string = columns[0];
             String values_string = "'"+values[0]+"'";
@@ -69,6 +74,7 @@ public class Database {
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
+        closeConnection();
     }
 
     public void closeConnection(){
@@ -80,6 +86,7 @@ public class Database {
     }
 
     public void createView(String viewName) throws SQLException {
+        setDB();
         try (Statement statement = conn.createStatement()) {
             statement.executeQuery("CREATE TABLE " + viewName + "(led_number int, led_color int);");
         } catch (SQLException ex) {
@@ -89,20 +96,24 @@ public class Database {
             } catch (Exception e){System.out.println(e);}
 
         }
-
+        closeConnection();
     }
 
    public void clearViews(){
+        setDB();
         ArrayList<String> views  = new ArrayList<String>();
         try{views = fetchViews();}catch(Exception e){}
         views.forEach((view) -> {
            deleteView(view);
         });
+        closeConnection();
     }
 
     public void deleteView(String viewName){
+        setDB();
         try (Statement statement = conn.createStatement()) {
             statement.executeQuery("DROP TABLE "+viewName+";");}catch(Exception ex){}
+        closeConnection();
     }
 
 }

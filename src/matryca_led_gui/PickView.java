@@ -33,12 +33,10 @@ public class PickView {
     public void setPickViewComboBox(){
         pickViewComboBox.removeAllItems();
         ArrayList<String> views = new ArrayList<String>();
-        db.setDB();
         try{views =  db.fetchViews();}catch(Exception e){}
         views.forEach((view) -> {
             pickViewComboBox.addItem(view);
         });
-        db.closeConnection();
     }
 
     public void setStopViewButton(){
@@ -54,10 +52,8 @@ public class PickView {
         deleteFromDatabaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                db.setDB();
                 db.deleteView(pickViewComboBox.getSelectedItem().toString());
                 setPickViewComboBox();
-                db.closeConnection();
             }
         });
     }
@@ -66,10 +62,8 @@ public class PickView {
         resetDatabaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                db.setDB();
                 db.clearViews();
                 setPickViewComboBox();
-                db.closeConnection();
             }
         });
     }

@@ -100,7 +100,6 @@ public class CreateView{
     void setViewTable(){
         String columns[] = new String[]{"led_number","led_color"};
         viewName = viewNameTextField.getText();
-        db.setDB();
        try{db.createView(viewName);}catch(Exception ex){};
        for (int i = 0;i<200;i++){
            try{db.insert( viewName, columns, new int[]{
@@ -108,7 +107,6 @@ public class CreateView{
                    pickedRadioButtonsColors[i]}
            );}catch(Exception ex){}
         }
-        db.closeConnection();
     }
 
 
