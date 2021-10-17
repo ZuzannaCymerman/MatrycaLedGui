@@ -17,12 +17,12 @@ void showView(char (*ledColors)[3], Adafruit_NeoPixel &pixels){
   int offset = 128;
 
   for(int i=0; i<200; i++) {
-      if((ledColors[i][0]!=0) & (ledColors[i][1]!=0) & (ledColors[i][1]!=0)){
        int R = int(ledColors[i][0]+offset);
        int G = int(ledColors[i][1]+offset);
        int B = int(ledColors[i][2]+offset);
-      pixels.setPixelColor(i, pixels.Color(R, G, B));
-      pixels.show(); 
+      if((R!=0) && (G!=0) && (B!=0)){       
+        pixels.setPixelColor(i, pixels.Color(R, G, B));
+        pixels.show(); 
       }     
   }
   Serial.println(" show");
