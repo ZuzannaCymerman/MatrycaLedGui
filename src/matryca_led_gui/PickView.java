@@ -86,6 +86,7 @@ public class PickView {
                 }
 
                 ArrayList ledColors = viewData.get("led_color");
+                System.out.println(ledColors.size());
 
                 String requestString ="";
 

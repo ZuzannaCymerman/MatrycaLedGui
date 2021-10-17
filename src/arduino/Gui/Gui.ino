@@ -14,7 +14,6 @@ Adafruit_NeoPixel pixels(LED_COUNT,LED_PIN, NEO_RGB+NEO_KHZ800);
 String action;
 boolean stop = true;
 
-char ledNumbers[200];
 char ledColors[200][3];
 char RGB[3];
  
@@ -37,7 +36,7 @@ void setup() {
 void loop() {
 
     if(!stop){
-       showView(ledNumbers,ledColors, pixels);
+       showView(ledColors, pixels);
     }
 
     WiFiEspClient client = server.available();
@@ -57,7 +56,7 @@ void loop() {
                 if(action == "V"){
                   stop = false;
                   
-                 receiveView(ledNumbers,ledColors, RGB, client);
+                 receiveView(ledColors, RGB, client);
 
                   Serial.println("Data collected");
                   

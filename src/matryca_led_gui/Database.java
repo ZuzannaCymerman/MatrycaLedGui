@@ -87,9 +87,6 @@ public class Database {
             try (Statement statement = conn.createStatement()) {
                 statement.executeQuery("delete from "+viewName+";");
             } catch (Exception e){System.out.println(e);}
-           // try (Statement statement = conn.createStatement()) {
-            //    statement.executeQuery("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='"+viewName+"';");
-           // } catch (Exception e){System.out.println(e);}
 
         }
 
