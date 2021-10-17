@@ -18,7 +18,6 @@ public class CreateView{
     private JButton clearAllButton;
     private JTextField viewNameTextField;
     private String viewName;
-    public int[] pickedRadioButtons;
     public int[] pickedRadioButtonsColors;
     private boolean pressed;
     private boolean isSelectedOnEntered;
@@ -39,7 +38,6 @@ public class CreateView{
     }
 
     private void initializeJRadioButtons(){
-       pickedRadioButtons = new int[200];
        pickedRadioButtonsColors = new int[200];
 
         for(int i = 0; i< 200; i++){
@@ -92,7 +90,6 @@ public class CreateView{
                     if(radioButtons[i].isSelected()){
                         radioButtons[i].doClick();
                         radioButtons[i].setIcon(null);
-                       Arrays.fill(pickedRadioButtons, 0);
                        Arrays.fill(pickedRadioButtonsColors, 0);
                     }
                 }
@@ -101,14 +98,13 @@ public class CreateView{
     }
 
     void setViewTable(){
-        String columns[] = new String[]{"led_number","led_value", "led_color"};
+        String columns[] = new String[]{"led_number","led_color"};
         viewName = viewNameTextField.getText();
         db.setDB();
        try{db.createView(viewName);}catch(Exception ex){};
        for (int i = 0;i<200;i++){
            try{db.insert( viewName, columns, new int[]{
                    i,
-                   pickedRadioButtons[i],
                    pickedRadioButtonsColors[i]}
            );}catch(Exception ex){}
         }
@@ -157,13 +153,11 @@ public class CreateView{
     void saveView(){
         for(int i = 0; i< 200; i++){
             if(radioButtons[i].isSelected()){
-                pickedRadioButtons[i] = 1;
                 LedColor color = radioButtons[i].getColor();
                 pickedRadioButtonsColors[i] = color.code;
             }
         }
         setViewTable();
-        Arrays.fill(pickedRadioButtons, 0);
         Arrays.fill(pickedRadioButtonsColors, 0);
     }
 

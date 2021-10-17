@@ -81,7 +81,7 @@ public class Database {
 
     public void createView(String viewName) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("CREATE TABLE " + viewName + "(led_number int, led_value int, led_color int);");
+            statement.executeQuery("CREATE TABLE " + viewName + "(led_number int, led_color int);");
         } catch (SQLException ex) {
             System.out.println(ex);
             try (Statement statement = conn.createStatement()) {
