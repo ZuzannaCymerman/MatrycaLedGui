@@ -3,9 +3,12 @@ package matryca_led_gui;
 import org.json.JSONObject;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class PickView {
@@ -15,6 +18,7 @@ public class PickView {
     private JButton resetDatabaseButton;
     private JButton showButton;
     private JButton stopViewButton;
+    private JButton previewButton;
     private Database db = new Database();
     private WiFi wifi = new WiFi();
 
@@ -24,21 +28,15 @@ public class PickView {
         setShowButton();
         setResetDatabaseButton();
         setStopViewButton();
-
-
-
-
     }
 
     public void setPickViewComboBox(){
         pickViewComboBox.removeAllItems();
         ArrayList<String> views = new ArrayList<String>();
-        db.setDB();
         try{views =  db.fetchViews();}catch(Exception e){}
         views.forEach((view) -> {
             pickViewComboBox.addItem(view);
         });
-        db.closeConnection();
     }
 
     public void setStopViewButton(){
@@ -54,10 +52,8 @@ public class PickView {
         deleteFromDatabaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                db.setDB();
                 db.deleteView(pickViewComboBox.getSelectedItem().toString());
                 setPickViewComboBox();
-                db.closeConnection();
             }
         });
     }
@@ -66,10 +62,8 @@ public class PickView {
         resetDatabaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                db.setDB();
                 db.clearViews();
                 setPickViewComboBox();
-                db.closeConnection();
             }
         });
     }
@@ -81,23 +75,60 @@ public class PickView {
                 String view = pickViewComboBox.getSelectedItem().toString();
                 HashMap<String, ArrayList<String>> viewData =  new HashMap<String, ArrayList<String>>();
                 try {
-                    viewData = db.fetch(view, new String[]{"led_number", "led_color"});
+                    viewData = db.fetch(view, new String[]{"led_color"});
                 } catch (Exception ex) {
                 }
 
-                int ledQuantity = viewData.get("led_number").size();
-                String ledNumbers = viewData.get("led_number").get(0);
-                String ledColors = viewData.get("led_color").get(0);
-                for (int i=1;i<ledQuantity;i++){
-                    ledNumbers = ledNumbers+"|"+viewData.get("led_number").get(i);
-                    ledColors = ledColors+"|"+viewData.get("led_color").get(i);
+                ArrayList ledColors = viewData.get("led_color");
+                System.out.println(ledColors.size());
+
+                String requestString ="";
+
+                for(int i =0;i<200;i++){
+                    requestString = requestString + ledColors.get(i);
                 }
 
-                System.out.println(ledNumbers);
-                System.out.println(ledColors);
-                wifi.sendRequest("|V|"+ledQuantity+"|"+ledNumbers+"|"+ledColors+"|");
+                System.out.println(requestString);
+                wifi.sendRequest("|V|"+requestString);
             }
         });
     }
+
+    LedColor pickColor(int pickedColorNumber){
+        LedColor color = new LedColor(Color.black, 0);
+
+        switch(pickedColorNumber){
+            case(1):
+                color = new LedColor(Color.red, 1);
+                break;
+            case(2):
+                color =  new LedColor(Color.green, 2);
+                break;
+            case(3):
+                color = new LedColor(Color.blue, 3);
+                break;
+            case(4):
+                color = new LedColor(Color.yellow, 4);
+                break;
+            case(5):
+                color = new LedColor(Color.orange, 5);
+                break;
+            case(6):
+                color = new LedColor(Color.cyan, 6);
+                break;
+            case(7):
+                color = new LedColor(Color.white, 7);
+                break;
+            case(8):
+                color = new LedColor(Color.magenta, 8);
+                break;
+            case(9):
+                color = new LedColor(Color.pink, 9);
+                break;
+        }
+        return color;
+
+    }
+
 
 }

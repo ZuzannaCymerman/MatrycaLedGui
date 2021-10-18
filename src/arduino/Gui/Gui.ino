@@ -2,7 +2,6 @@
 #include "SoftwareSerial.h"
 #include "WiFiEsp.h"
 #include "Views.h"
-#include "VirtualWire.h"
 
 #define LED_COUNT 200
 #define LED_PIN 45
@@ -11,12 +10,11 @@ SoftwareSerial EspSerial(10, 11);
 WiFiEspServer server(80);
 int status = WL_IDLE_STATUS;
 Adafruit_NeoPixel pixels(LED_COUNT,LED_PIN, NEO_RGB+NEO_KHZ800);
+
 String action;
-boolean run;
 boolean stop = true;
-int *ledNumbers;
-int *ledColors;
-int ledQuantity;
+
+char ledColors[200][3];
  
 void setup() {
   Serial.begin(9600);
@@ -36,54 +34,44 @@ void setup() {
 
 void loop() {
 
-run = true;
- 
-  while(run){
     if(!stop){
-       showView(ledNumbers,ledColors, pixels, ledQuantity);
+       showView(ledColors, pixels);
     }
-   
+
     WiFiEspClient client = server.available();
     if (client)
       {
-          Serial.println("A client has connected");
+         Serial.println("A client has connected");
   
           while (client.connected()){
             
               if (client.available()){
-                
-                Serial.println("connected");
+               
                 client.readStringUntil('|');
                 action = client.readStringUntil('|');
   
                 Serial.println(action);
                 
                 if(action == "V"){
-      
                   stop = false;
                   
-                   ledQuantity = receiveLedQuantity(client);
-                    
-                   ledNumbers = new int[ledQuantity];
-                   ledColors = new int[ledQuantity];    
+                 receiveView(ledColors,client);
+
+                  Serial.println("Data collected");
                   
-                   receiveView(ledNumbers, ledColors, client, ledQuantity);
-    
-                   Serial.println(ledNumbers[2]);
+                  clientStop(client);
                    
-                 }else if (action == "S"){
-                    clientStop(client);  
+                 }else if (action == "S"){ 
                     stop = true;                   
                     pixels.clear();
                     Serial.println("stop");
+                    clientStop(client); 
                    
                  }
                
-               }
-            }
-              clientStop(client);  
+              }
+           }
         } 
-  }
  
      
 }
