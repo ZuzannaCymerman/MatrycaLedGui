@@ -18,7 +18,6 @@ public class PickView {
     private JButton resetDatabaseButton;
     private JButton showButton;
     private JButton stopViewButton;
-    private JButton previewButton;
     private Database db = new Database();
     private WiFi wifi = new WiFi();
 
@@ -92,42 +91,6 @@ public class PickView {
                 wifi.sendRequest("|V|"+requestString);
             }
         });
-    }
-
-    LedColor pickColor(int pickedColorNumber){
-        LedColor color = new LedColor(Color.black, 0);
-
-        switch(pickedColorNumber){
-            case(1):
-                color = new LedColor(Color.red, 1);
-                break;
-            case(2):
-                color =  new LedColor(Color.green, 2);
-                break;
-            case(3):
-                color = new LedColor(Color.blue, 3);
-                break;
-            case(4):
-                color = new LedColor(Color.yellow, 4);
-                break;
-            case(5):
-                color = new LedColor(Color.orange, 5);
-                break;
-            case(6):
-                color = new LedColor(Color.cyan, 6);
-                break;
-            case(7):
-                color = new LedColor(Color.white, 7);
-                break;
-            case(8):
-                color = new LedColor(Color.magenta, 8);
-                break;
-            case(9):
-                color = new LedColor(Color.pink, 9);
-                break;
-        }
-        return color;
-
     }
 
 

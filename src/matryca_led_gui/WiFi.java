@@ -8,11 +8,11 @@ import java.net.http.HttpResponse;
 public class WiFi {
     WiFi(){}
 
-    void sendRequest(String json_data){
+    void sendRequest(String data){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://192.168.0.190"))
-                .POST(HttpRequest.BodyPublishers.ofString(json_data))
+                .POST(HttpRequest.BodyPublishers.ofString(data))
                 .build();
         try {
            client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
