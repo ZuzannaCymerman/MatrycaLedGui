@@ -15,7 +15,6 @@ String action;
 boolean stop = true;
 
 char ledColors[200][3];
-char RGB[3];
  
 void setup() {
   Serial.begin(9600);
@@ -56,7 +55,7 @@ void loop() {
                 if(action == "V"){
                   stop = false;
                   
-                 receiveView(ledColors, RGB, client);
+                 receiveView(ledColors,client);
 
                   Serial.println("Data collected");
                   

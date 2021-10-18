@@ -2,34 +2,31 @@
 #include "WiFiEsp.h"
 #include <Adafruit_NeoPixel.h>
 
-void receiveView(char (*ledColors)[3], char *RGB, WiFiEspClient client){      
+const int offset = 128;
+
+void receiveView(char (*ledColors)[3], WiFiEspClient client){      
    for(int i=0;i<200;i++){
         char data = client.read();
-        getRGB(data, RGB);
-        ledColors[i][0] = RGB[0];
-        ledColors[i][1] = RGB[1];
-        ledColors[i][2] = RGB[2];  
+        getRGB(data, ledColors[i]);
     }
 }
 
 void showView(char (*ledColors)[3], Adafruit_NeoPixel &pixels){
   pixels.clear();
-  int offset = 128;
 
   for(int i=0; i<200; i++) {
        int R = int(ledColors[i][0]+offset);
        int G = int(ledColors[i][1]+offset);
        int B = int(ledColors[i][2]+offset);
-      if((R!=0) && (G!=0) && (B!=0)){       
+      if((R+G+B)!=0){       
         pixels.setPixelColor(i, pixels.Color(R, G, B));
         pixels.show(); 
-      }     
+      } 
   }
   Serial.println(" show");
 } 
 
 void getRGB(char ledColor, char *RGB){
-int  offset = 128;
   switch(ledColor){
     case '1':
       RGB[0] = char(255-offset);
@@ -84,6 +81,13 @@ int  offset = 128;
       RGB[1] = char(175-offset);
       RGB[2] = char(175-offset);
       break;
+    case '0':
+      //off
+      RGB[0] = char(0-offset);
+      RGB[1] = char(0-offset);
+      RGB[2] = char(0-offset);
+      break;
+    
   }   
 }
 
@@ -95,4 +99,5 @@ void clientStop(WiFiEspClient client){
              
   client.stop();
 }
+
  
