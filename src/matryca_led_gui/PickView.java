@@ -93,31 +93,6 @@ public class PickView {
             }
         });
     }
-    public void setPreviewButton(ColoredJRadioButton[] radioButtons){
-        previewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String view = pickViewComboBox.getSelectedItem().toString();
-                HashMap<String, ArrayList<String>> viewData =  new HashMap<String, ArrayList<String>>();
-                try {
-                    viewData = db.fetch(view, new String[]{"led_color"});
-                } catch (Exception ex) {}
-
-                ArrayList ledColors = viewData.get("led_color");
-
-                for(int i =0;i<200;i++) {
-                    ColoredJRadioButton rb = radioButtons[i];
-                    if(rb.isSelected()){
-                        rb.doClick();
-                        rb.setIcon(null);
-                    }
-                    rb.doClick();
-                    int ledColor = Integer.valueOf(ledColors.get(i).toString());
-                    rb.setColor(pickColor(ledColor));
-                }
-            }
-        });
-    }
 
     LedColor pickColor(int pickedColorNumber){
         LedColor color = new LedColor(Color.black, 0);

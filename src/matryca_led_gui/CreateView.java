@@ -22,15 +22,6 @@ public class CreateView{
     private boolean pressed;
     private boolean isSelectedOnEntered;
     private Database db = new Database();
-    public LedColor red = new LedColor(Color.red, 1);
-    public LedColor green = new LedColor(Color.green, 2);
-    public LedColor blue = new LedColor(Color.blue, 3);
-    public LedColor yellow = new LedColor(Color.yellow, 4);
-    public LedColor orange = new LedColor(Color.orange, 5);
-    public LedColor cyan = new LedColor(Color.cyan, 6);
-    public LedColor white = new LedColor(Color.white, 7);
-    public LedColor magenta = new LedColor(Color.magenta, 8);
-    public LedColor pink = new LedColor(Color.pink, 9);
 
     CreateView(){
         initializeJRadioButtons();
@@ -164,31 +155,31 @@ public class CreateView{
         LedColor color = new LedColor(Color.black, 0);
         switch(pickedColorName){
             case("Czerwony"):
-                color = red;
+                color = new LedColor(Color.red, 1);
                 break;
             case("Zielony"):
-                color = green;
+                color = new LedColor(Color.green, 2);
                 break;
             case("Niebieski"):
-                color = blue;
+                color = new LedColor(Color.blue, 3);
                 break;
             case("Żółty"):
-                color = yellow;
+                color = new LedColor(Color.yellow, 4);
                 break;
             case("Pomarańczowy"):
-                color = orange;
+                color = new LedColor(Color.orange, 5);
                 break;
             case("Błękitny"):
-                color = cyan;
+                color = new LedColor(Color.cyan, 6);
                 break;
             case("Biały"):
-                color = white;
+                color = new LedColor(Color.white, 7);
                 break;
             case("Ciemny róż"):
-                color = magenta;
+                color = new LedColor(Color.magenta, 8);
                 break;
             case("Różowy"):
-                color = pink;
+                color = new LedColor(Color.pink, 9);
                 break;
         }
         System.out.println(color.color);

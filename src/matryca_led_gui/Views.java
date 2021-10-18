@@ -26,6 +26,5 @@ public class Views extends JFrame{
                 pickView.setPickViewComboBox();
             }
         });
-        pickView.setPreviewButton(createView.radioButtons);
     }
 }
