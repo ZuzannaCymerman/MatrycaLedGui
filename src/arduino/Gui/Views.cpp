@@ -4,14 +4,20 @@
 
 const int offset = 128;
 
-void receiveView(char (*ledColors)[3], WiFiEspClient client){      
+int receiveView(char (*ledColors)[3],WiFiEspClient client){
+   String ledBString = client.readStringUntil('|');
+   const char* ledBCharPtr = ledBString.c_str();
+   int ledBrightness = atoi(ledBCharPtr);
+   
    for(int i=0;i<200;i++){
         char data = client.read();
         getRGB(data, ledColors[i]);
     }
+
+   return ledBrightness;
 }
 
-void showView(char (*ledColors)[3], Adafruit_NeoPixel &pixels){
+void showView(char (*ledColors)[3],int ledBrightness, Adafruit_NeoPixel &pixels){
   pixels.clear();
 
   for(int i=0; i<200; i++) {
@@ -20,9 +26,12 @@ void showView(char (*ledColors)[3], Adafruit_NeoPixel &pixels){
        int B = int(ledColors[i][2]+offset);
       if((R+G+B)!=0){       
         pixels.setPixelColor(i, pixels.Color(R, G, B));
+        pixels.setBrightness(ledBrightness);
         pixels.show(); 
       } 
   }
+  
+  Serial.print(ledBrightness);
   Serial.println(" show");
 } 
 

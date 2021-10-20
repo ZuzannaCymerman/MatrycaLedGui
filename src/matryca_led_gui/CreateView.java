@@ -17,6 +17,7 @@ public class CreateView{
     private JComboBox pickColorComboBox;
     private JButton clearAllButton;
     private JTextField viewNameTextField;
+    public JSlider brightnessSlider;
     private String viewName;
     public int[] pickedRadioButtonsColors;
     private boolean pressed;
@@ -89,11 +90,20 @@ public class CreateView{
     }
 
     void setViewTable(){
-        String columns[] = new String[]{"led_number","led_color"};
+        String columnsWithoutBrightness[] = new String[]{"led_number","led_color"};
+        String columnsWithBrightness[] = new String[]{"led_number","led_color", "led_brightness"};
         viewName = viewNameTextField.getText();
-       try{db.createView(viewName);}catch(Exception ex){};
-       for (int i = 0;i<200;i++){
-           try{db.insert( viewName, columns, new int[]{
+        int brightness  = brightnessSlider.getValue();
+        try{db.createView(viewName);}catch(Exception ex){};
+
+        try{db.insert( viewName, columnsWithBrightness, new int[]{
+                0,
+                pickedRadioButtonsColors[0],
+                brightness}
+        );}catch(Exception ex){}
+
+        for (int i = 1;i<200;i++){
+           try{db.insert( viewName, columnsWithoutBrightness, new int[]{
                    i,
                    pickedRadioButtonsColors[i]}
            );}catch(Exception ex){}

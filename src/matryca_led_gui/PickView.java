@@ -74,14 +74,16 @@ public class PickView {
                 String view = pickViewComboBox.getSelectedItem().toString();
                 HashMap<String, ArrayList<String>> viewData =  new HashMap<String, ArrayList<String>>();
                 try {
-                    viewData = db.fetch(view, new String[]{"led_color"});
+                    viewData = db.fetch(view, new String[]{"led_color", "led_brightness"});
                 } catch (Exception ex) {
                 }
 
                 ArrayList ledColors = viewData.get("led_color");
+                String ledBrightness = viewData.get("led_brightness").get(0);
+
                 System.out.println(ledColors.size());
 
-                String requestString ="";
+                String requestString = ledBrightness+"|";
 
                 for(int i =0;i<200;i++){
                     requestString = requestString + ledColors.get(i);

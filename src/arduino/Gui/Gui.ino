@@ -15,6 +15,7 @@ String action;
 boolean stop = true;
 
 char ledColors[200][3];
+int ledBrightness;
  
 void setup() {
   Serial.begin(9600);
@@ -35,7 +36,7 @@ void setup() {
 void loop() {
 
     if(!stop){
-       showView(ledColors, pixels);
+       showView(ledColors,ledBrightness, pixels);
     }
 
     WiFiEspClient client = server.available();
@@ -55,7 +56,8 @@ void loop() {
                 if(action == "V"){
                   stop = false;
                   
-                 receiveView(ledColors,client);
+                 ledBrightness = receiveView(ledColors,client);
+                 Serial.print(ledBrightness);
 
                   Serial.println("Data collected");
                   
