@@ -1,7 +1,5 @@
 package matryca_led_gui;
 
-import org.json.JSONObject;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -89,8 +87,9 @@ public class PickView {
                     requestString = requestString + ledColors.get(i);
                 }
 
-                System.out.println(requestString);
                 wifi.sendRequest("|V|"+requestString);
+                System.out.println("|V|"+requestString);
+
             }
         });
     }

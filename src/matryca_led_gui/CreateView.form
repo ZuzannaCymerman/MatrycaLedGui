@@ -28,9 +28,9 @@
         <properties>
           <background color="-6052184"/>
           <foreground color="-12828863"/>
-          <maximumSize width="360" height="580"/>
-          <minimumSize width="360" height="580"/>
-          <preferredSize width="360" height="580"/>
+          <maximumSize width="320" height="540"/>
+          <minimumSize width="320" height="540"/>
+          <preferredSize width="320" height="540"/>
         </properties>
         <border type="none"/>
         <children/>

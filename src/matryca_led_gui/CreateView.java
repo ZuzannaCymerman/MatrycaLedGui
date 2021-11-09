@@ -34,7 +34,6 @@ public class CreateView{
 
         for(int i = 0; i< 200; i++){
             radioButtons[i] = new ColoredJRadioButton();
-            radioButtons[i].setNumber(i);
             radioButtons[i].setSize(20,20);
             radioButtons[i].setActionCommand(Integer.toString(i));
             radioButtons[i].setText("");
@@ -68,7 +67,6 @@ public class CreateView{
 
                 }
             });
-            radioButtonsPanel.setSize(200,200);
             radioButtonsPanel.add(radioButtons[i]);
         }
 
