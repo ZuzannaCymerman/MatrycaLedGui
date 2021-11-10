@@ -16,8 +16,12 @@ public class PickView {
     private JButton resetDatabaseButton;
     private JButton showButton;
     private JButton stopViewButton;
+    private JPanel previewPanel;
+    private JButton previewButton;
     private Database db = new Database();
     private WiFi wifi = new WiFi();
+    private JLabel[] previewIcons = new JLabel[200];
+    private LedColor[] ledColors = new LedColor[10];
 
     public PickView() {
         setPickViewComboBox();
@@ -25,6 +29,13 @@ public class PickView {
         setShowButton();
         setResetDatabaseButton();
         setStopViewButton();
+        setPreviewButton();
+        setLedColors();
+        ColorIcon ci = new ColorIcon(12,12,ledColors[0]);
+        for(int i=0;i<200;i++){
+            previewIcons[i] = new JLabel(ci);
+            previewPanel.add(previewIcons[i]);
+        }
     }
 
     public void setPickViewComboBox(){
@@ -93,6 +104,45 @@ public class PickView {
             }
         });
     }
+
+    public void setPreviewButton(){
+        previewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("preview");
+                String view = pickViewComboBox.getSelectedItem().toString();
+                HashMap<String, ArrayList<String>> viewData =  new HashMap<String, ArrayList<String>>();
+                try {
+                    viewData = db.fetch(view, new String[]{"led_color"});
+                } catch (Exception ex) {
+                }
+
+                for(int i=0;i<200;i++){
+                    int colorCode = Integer.valueOf(viewData.get("led_color").get(i));
+                    ColorIcon ci = new ColorIcon(12,12,ledColors[colorCode]);
+                    previewIcons[i].setIcon(ci);
+                }
+                previewPanel.repaint();
+            }
+        });
+    }
+
+    public void setLedColors(){
+        Color transparent = new Color(163,166,168);
+        ledColors[0] = new LedColor(transparent, 0);
+        ledColors[1] = new LedColor(Color.red, 1);
+        ledColors[2] = new LedColor(Color.green, 2);
+        ledColors[3] = new LedColor(Color.blue, 3);
+        ledColors[4] = new LedColor(Color.yellow, 4);
+        ledColors[5] = new LedColor(Color.orange, 5);
+        ledColors[6] = new LedColor(Color.cyan, 6);
+        ledColors[7] = new LedColor(Color.white, 7);
+        ledColors[8] = new LedColor(Color.magenta, 8);
+        ledColors[9] = new LedColor(Color.pink, 9);
+
+    }
+
+
 
 
 }
