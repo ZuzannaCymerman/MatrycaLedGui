@@ -34,7 +34,6 @@ public class CreateView{
 
         for(int i = 0; i< 200; i++){
             radioButtons[i] = new ColoredJRadioButton();
-            radioButtons[i].setSize(20,20);
             radioButtons[i].setActionCommand(Integer.toString(i));
             radioButtons[i].setText("");
             radioButtons[i].addMouseListener(new MouseAdapter() {
