@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="matryca_led_gui.CreateView">
   <grid id="27dc6" binding="createViewPanel" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="32" y="586" width="646" height="780"/>
+      <xy x="32" y="586" width="739" height="780"/>
     </constraints>
     <properties>
       <alignmentX value="0.5"/>
@@ -181,6 +181,16 @@
         </constraints>
         <properties>
           <text value="-"/>
+        </properties>
+      </component>
+      <component id="dde75" class="javax.swing.JLabel" binding="validator">
+        <constraints>
+          <grid row="4" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="max liczba znaków:16"/>
+          <visible value="false"/>
         </properties>
       </component>
     </children>

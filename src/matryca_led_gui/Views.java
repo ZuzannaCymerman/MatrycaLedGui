@@ -22,8 +22,15 @@ public class Views extends JFrame{
         createView.saveViewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createView.saveView();
-                pickView.setPickViewComboBox();
+
+                String viewName = createView.viewNameTextField.getText();
+                if(viewName.length()<16) {
+                    createView.saveView();
+                    pickView.setPickViewComboBox();
+                    createView.validator.setVisible(false);
+                }else{
+                    createView.validator.setVisible(true);
+                }
             }
         });
     }

@@ -16,8 +16,9 @@ public class CreateView{
     private JComboBox pickToolComboBox;
     private JComboBox pickColorComboBox;
     private JButton clearAllButton;
-    private JTextField viewNameTextField;
+    public JTextField viewNameTextField;
     public JSlider brightnessSlider;
+    public JLabel validator;
     private String viewName;
     public int[] pickedRadioButtonsColors;
     private boolean pressed;
@@ -156,6 +157,10 @@ public class CreateView{
         }
         setViewTable();
         Arrays.fill(pickedRadioButtonsColors, 0);
+    }
+
+    void validate(){
+
     }
 
     LedColor pickColor(String pickedColorName){
