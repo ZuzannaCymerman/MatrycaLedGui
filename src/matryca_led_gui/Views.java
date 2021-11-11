@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.*;
 
 public class Views extends JFrame{
     PickView pickView = new PickView();
@@ -24,12 +25,15 @@ public class Views extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 String viewName = createView.viewNameTextField.getText();
-                if(viewName.length()<16) {
+                Pattern p = Pattern.compile("^[A-Za-z0-9]{1,15}$");
+                Matcher m = p.matcher(viewName);
+                boolean correctMatch = m.matches();
+                if(!correctMatch) {
+                    createView.validator.setVisible(true);
+                }else{
+                    createView.validator.setVisible(false);
                     createView.saveView();
                     pickView.setPickViewComboBox();
-                    createView.validator.setVisible(false);
-                }else{
-                    createView.validator.setVisible(true);
                 }
             }
         });

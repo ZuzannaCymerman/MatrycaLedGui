@@ -19,6 +19,7 @@ public class CreateView{
     public JTextField viewNameTextField;
     public JSlider brightnessSlider;
     public JLabel validator;
+    private JPanel panel;
     private String viewName;
     public int[] pickedRadioButtonsColors;
     private boolean pressed;
