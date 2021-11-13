@@ -4,9 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class PickView {
@@ -18,6 +16,7 @@ public class PickView {
     private JButton stopViewButton;
     private JPanel previewPanel;
     private JButton previewButton;
+    private JLabel brightnessPreviewLabel;
     private Database db = new Database();
     private WiFi wifi = new WiFi();
     private JLabel[] previewIcons = new JLabel[200];
@@ -113,7 +112,7 @@ public class PickView {
                 String view = pickViewComboBox.getSelectedItem().toString();
                 HashMap<String, ArrayList<String>> viewData =  new HashMap<String, ArrayList<String>>();
                 try {
-                    viewData = db.fetch(view, new String[]{"led_color"});
+                    viewData = db.fetch(view, new String[]{"led_color", "led_brightness"});
                 } catch (Exception ex) {
                 }
 
@@ -122,6 +121,7 @@ public class PickView {
                     ColorIcon ci = new ColorIcon(12,12,ledColors[colorCode]);
                     previewIcons[i].setIcon(ci);
                 }
+                brightnessPreviewLabel.setText("Jasność: "+viewData.get("led_brightness").get(0));
                 previewPanel.repaint();
             }
         });

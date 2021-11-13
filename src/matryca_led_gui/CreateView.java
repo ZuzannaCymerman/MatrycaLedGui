@@ -40,15 +40,11 @@ public class CreateView{
             radioButtons[i].setText("");
             radioButtons[i].addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    Object obj = e.getSource();
-                    ColoredJRadioButton rb = (ColoredJRadioButton) obj;
-                    drawRadioButtonOnClick(rb);
-                }
-
-                @Override
                 public void mousePressed(MouseEvent e) {
                     pressed = true;
+                    Object obj = e.getSource();
+                    ColoredJRadioButton rb = (ColoredJRadioButton) obj;
+                    drawRadioButtononPressed(rb, pressed);
                 }
 
                 @Override
@@ -118,50 +114,28 @@ public class CreateView{
                     rb.doClick();
                     LedColor color = pickColor(pickColorComboBox.getSelectedItem().toString());
                     rb.setColor(color);
-                    isSelectedOnEntered = true;
                 }
             }
         }else{
             if(pressed) {
                 if (rb.isSelected()) {
                     rb.doClick();
-                    System.out.println(rb.isSelected());
                     rb.setIcon(null);
+                    rb.setNullColor();
                 }
             }
         }
     }
 
-    void drawRadioButtonOnClick(ColoredJRadioButton rb){
-        if(pickToolComboBox.getSelectedItem() == "Rysuj") {
-           LedColor color = pickColor(pickColorComboBox.getSelectedItem().toString());
-           rb.setColor(color);
-           if(isSelectedOnEntered){
-               rb.doClick();
-               isSelectedOnEntered = false;
-           }
-        }else{
-            rb.setIcon(null);
-            if(rb.isSelected()){
-                rb.doClick();
-            }
-        }
-        System.out.println(rb.isSelected());
-    }
-
     void saveView(){
         for(int i = 0; i< 200; i++){
-            if(radioButtons[i].isSelected()){
+            if(radioButtons[i].getColor()!=null){
                 LedColor color = radioButtons[i].getColor();
                 pickedRadioButtonsColors[i] = color.code;
             }
         }
         setViewTable();
         Arrays.fill(pickedRadioButtonsColors, 0);
-    }
-
-    void validate(){
-
     }
 
     LedColor pickColor(String pickedColorName){

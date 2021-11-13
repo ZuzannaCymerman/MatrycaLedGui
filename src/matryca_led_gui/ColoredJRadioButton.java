@@ -13,6 +13,11 @@ public class ColoredJRadioButton extends JRadioButton {
     public LedColor getColor(){
         return instanceColor;
     }
+    public void setNullColor(){
+        instanceColor = null;
+    }
+
+
 
     public void setColor(LedColor color) {
         ColorIcon colorIcon = new ColorIcon(13, 13, color);
