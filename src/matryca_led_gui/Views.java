@@ -16,7 +16,7 @@ public class Views extends JFrame{
     Views(){
         setVisible(true);
         setContentPane(viewsPanel);
-        setSize(800,800);
+        setSize(900,800);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         viewsPanel.add(createViewPanel, BorderLayout.WEST);
         viewsPanel.add(pickViewPanel, BorderLayout.EAST);

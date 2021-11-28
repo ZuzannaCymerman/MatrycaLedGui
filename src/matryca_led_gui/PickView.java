@@ -17,6 +17,7 @@ public class PickView {
     private JPanel previewPanel;
     private JButton previewButton;
     private JLabel brightnessPreviewLabel;
+    private JButton nextButton;
     private Database db = new Database();
     private WiFi wifi = new WiFi();
     private JLabel[] previewIcons = new JLabel[200];
@@ -30,11 +31,23 @@ public class PickView {
         setStopViewButton();
         setPreviewButton();
         setLedColors();
+        setNextButton();
         ColorIcon ci = new ColorIcon(12,12,ledColors[0]);
         for(int i=0;i<200;i++){
             previewIcons[i] = new JLabel(ci);
             previewPanel.add(previewIcons[i]);
         }
+
+    }
+    public void setNextButton(){
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int nextIndex = pickViewComboBox.getSelectedIndex() + 1;
+                pickViewComboBox.setSelectedIndex(nextIndex);
+                showButton.doClick();
+            }
+        });
     }
 
     public void setPickViewComboBox(){
