@@ -18,10 +18,13 @@ public class PickView {
     private JButton previewButton;
     private JLabel brightnessPreviewLabel;
     private JButton nextButton;
+    private JButton showInLoopButton;
     private Database db = new Database();
     private WiFi wifi = new WiFi();
     private JLabel[] previewIcons = new JLabel[200];
     private LedColor[] ledColors = new LedColor[10];
+    private boolean loopStop = true;
+    private Thread loop;
 
     public PickView() {
         setPickViewComboBox();
@@ -38,6 +41,33 @@ public class PickView {
             previewPanel.add(previewIcons[i]);
         }
 
+        showInLoopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loop();
+            }
+        });
+    }
+    public void loop(){
+        loopStop = false;
+       loop = new Thread() {
+            public void run() {
+                while(!loopStop)
+                {
+                    nextButton.doClick();
+                    showButton.doClick();
+                    try {
+                        wait(1000);
+                    } catch (Exception ex) {
+                    }
+                    ;
+                    if (loopStop) {
+                        break;
+                    }
+                }
+            }
+        };
+       loop.start();
     }
     public void setNextButton(){
         nextButton.addActionListener(new ActionListener() {
@@ -68,7 +98,10 @@ public class PickView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 wifi.sendRequest("|S|");
+                loop.interrupt();
+                loopStop = true;
             }
+
         });
     }
 
