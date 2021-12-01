@@ -43,8 +43,12 @@ public class PickView {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int nextIndex = pickViewComboBox.getSelectedIndex() + 1;
-                pickViewComboBox.setSelectedIndex(nextIndex);
+                int currentIndex = pickViewComboBox.getSelectedIndex();
+                if(currentIndex<pickViewComboBox.getItemCount()-1) {
+                    pickViewComboBox.setSelectedIndex(currentIndex+1);
+                }else{
+                    pickViewComboBox.setSelectedIndex(0);
+                }
                 showButton.doClick();
             }
         });
