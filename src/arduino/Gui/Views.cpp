@@ -25,7 +25,7 @@ void showView(char (*ledColors)[3],int ledBrightness, Adafruit_NeoPixel &pixels)
        int G = int(ledColors[i][1]+offset);
        int B = int(ledColors[i][2]+offset);
       if((R+G+B)!=0){       
-        pixels.setPixelColor(i, pixels.Color(R, G, B));
+        pixels.setPixelColor(i, pixels.Color(G, R, B));
         pixels.setBrightness(ledBrightness);
         pixels.show(); 
       } 

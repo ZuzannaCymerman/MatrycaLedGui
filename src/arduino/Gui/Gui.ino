@@ -3,8 +3,8 @@
 #include "WiFiEsp.h"
 #include "Views.h"
 
-#define LED_COUNT 200
-#define LED_PIN 45
+#define LED_COUNT 30
+#define LED_PIN 12
 
 SoftwareSerial EspSerial(10, 11);
 WiFiEspServer server(80);
@@ -31,9 +31,13 @@ void setup() {
   Serial.println(WiFi.localIP());
   
   server.begin();
+  
+  pixels.begin();
+  pixels.clear();
+ 
 }
 
-void loop() {
+void loop() { 
 
     if(!stop){
        showView(ledColors,ledBrightness, pixels);
