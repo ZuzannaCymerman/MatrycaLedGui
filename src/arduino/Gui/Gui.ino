@@ -40,6 +40,7 @@ void setup() {
 void loop() { 
 
     if(!stop){
+      
        showView(ledColors,ledBrightness, pixels);
     }
 
@@ -51,7 +52,7 @@ void loop() {
           while (client.connected()){
             
               if (client.available()){
-               
+                pixels.clear();
                 client.readStringUntil('|');
                 action = client.readStringUntil('|');
   

@@ -18,7 +18,7 @@ int receiveView(char (*ledColors)[3],WiFiEspClient client){
 }
 
 void showView(char (*ledColors)[3],int ledBrightness, Adafruit_NeoPixel &pixels){
-  pixels.clear();
+ 
 
   for(int i=0; i<200; i++) {
        int R = int(ledColors[i][0]+offset);
